@@ -13,7 +13,7 @@ import StackedList from './routes/stackedlist/stacked-list.component'
 const redirectUrl = 'https://github.com';
 
 const isUserAuthenticated = () => {
-  return false; //use existing function
+  return true; //use existing function
 }
 
 const Redirect = () => {
