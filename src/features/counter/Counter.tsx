@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+//import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
 import {
   decrement,
@@ -10,11 +11,12 @@ import {
   incrementIfEven,
   selectCount,
 } from './counterSlice';
+
 import styles from './Counter.module.css';
 
 const Counter = () => {
-  const count = useSelector(selectCount);
-  const dispatch = useDispatch();
+  const count = useAppSelector(selectCount);
+  const dispatch = useAppDispatch();
   const [incrementAmount, setIncrementAmount] = useState('2');
 
   //They do this as validation to prevent adding letters instead of numbers
