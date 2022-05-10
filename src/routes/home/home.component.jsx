@@ -100,6 +100,36 @@ const people = [
     name: 'Enrique Delgado',
     title: 'Software Engineer',
     email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
   }
 
 ]
@@ -131,27 +161,12 @@ export default function Home() {
     <>
     <div style={{ marginTop: '65px' }}></div>
     <ActionBar />
-    <div className="px-4 sm:px-6 lg:px-8 mt-20">
+    <div className="px-4 sm:px-6 lg:px-8">
       <div className="mt-8 flex flex-col">
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <div className="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-              {/* {selectedPeople.length > 0 && (
-                <div className="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
-                  <button
-                    type="button"
-                    className="inline-flex items-center rounded border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
-                  >
-                    Bulk edit
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex items-center rounded border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
-                  >
-                    Delete all
-                  </button>
-                </div>
-              )} */}
+            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+              
               <table className="min-w-full table-fixed divide-y divide-gray-300">
                 <thead className="bg-gray-50">
                   <tr>
@@ -271,6 +286,7 @@ export default function Home() {
                   ))}
                 </tbody>
               </table>
+              
             </div>
           </div>
         </div>
