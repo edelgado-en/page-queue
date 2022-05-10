@@ -1,15 +1,107 @@
 import { useLayoutEffect, useRef, useState } from 'react'
+import { CalendarIcon, ChevronRightIcon,
+  ArrowSmRightIcon, LockClosedIcon,
+   PencilAltIcon, TrashIcon, CheckCircleIcon } from '@heroicons/react/solid'
 
-import Dropdown from '../../components/dropdown.component';
+import ActionBar from '../../components/action-bar.component'
 
 const people = [
   {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
   },
-  // More people...
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  },
+  {
+    name: 'Enrique Delgado',
+    title: 'Software Engineer',
+    email: 'edelgado@example.com',
+  }
+
 ]
 
 function classNames(...classes) {
@@ -36,24 +128,10 @@ export default function Home() {
   }
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-          <h1 className="text-xl font-semibold text-gray-900">Users</h1>
-          <p className="mt-2 text-sm text-gray-700">
-            A list of all the users in your account including their name, title, email and role.
-          </p>
-        </div>
-        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-          >
-            Add user
-          </button>
-          <Dropdown />
-        </div>
-      </div>
+    <>
+    <div style={{ marginTop: '65px' }}></div>
+    <ActionBar />
+    <div className="px-4 sm:px-6 lg:px-8 mt-20">
       <div className="mt-8 flex flex-col">
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -93,43 +171,28 @@ export default function Home() {
                       Flags
                     </th>
                     <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                      Url
-                    </th>
-                    <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                      Created
-                    </th>
-                    <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                      Assigned
-                    </th>
-                    <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                      Updated
-                    </th>
-                    <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                      Req by
+                      Text
                     </th>
                     <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
                       Words
                     </th>
                     <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                      % Translated
-                    </th>
-                    <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                      Text
-                    </th>
-                    <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
                       Files
                     </th>
                     <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                      LSP
+                      Created
                     </th>
                     <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                      Translator
+                      Updated
                     </th>
                     <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                      Reviewer
+                      Assigned
                     </th>
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                       <span className="sr-only">Edit</span>
+                    </th>
+                    <th>
+
                     </th>
                   </tr>
                 </thead>
@@ -160,15 +223,49 @@ export default function Home() {
                           selectedPeople.includes(person) ? 'text-indigo-600' : 'text-gray-900'
                         )}
                       >
-                        {person.name}
+                        <span className="ml-1 font-medium text-indigo-600 truncate">88280213</span>
+                        <span className="ml-1 flex-shrink-0 font-normal text-gray-500" style={{ fontSize: '10px' }}>OSO-HTML</span>
                       </td>
-                      <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">{person.title}</td>
-                      <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">{person.email}</td>
-                      <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">{person.role}</td>
-                      <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                          Edit<span className="sr-only">, {person.name}</span>
-                        </a>
+                      <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">
+                        <div className="flex items-center text-sm text-gray-500">
+                          <CalendarIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" aria-hidden="true" />
+                          <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-red-300" />
+                          <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
+                          <TrashIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
+                        </div>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">
+                        <div className="flex flex-row flex-nowrap gap-1">
+                            <div className="text-xs">
+                                <p className="px-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Translated
+                                </p>
+                            </div>
+                            <div className="text-xs">96%</div>
+                        </div>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+                      <div className="text-xs">5,678</div>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+                        <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" />
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+                        <div className="text-xs">04-29-2022 08:58 AM</div>
+                           <span>TransSync</span>   
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+                        <div className="text-xs">04-29-2022 09:15 AM</div>
+                        <div className="text-xs">AP</div>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+                        <div className="text-xs">04-29-2022 08:58 AM</div>
+                        <div className="text-xs">
+                            <span className="font-semibold bg-sky-100  px-1">PTS</span> <ArrowSmRightIcon className="h-3 w-3 inline-block" /> <span>edelgado</span> <ArrowSmRightIcon className="h-3 w-3 inline-block" /> <span>adeberry</span>
+                        </div>
+                      </td>
+                      <td>
+                        <ChevronRightIcon className="h-4 w-4 text-gray-400 cursor-pointer"/>
                       </td>
                     </tr>
                   ))}
@@ -179,5 +276,6 @@ export default function Home() {
         </div>
       </div>
     </div>
+    </>
   )
 }

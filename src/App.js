@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import logo from './logo.svg';
-import Counter from './features/counter/Counter';
+import React, { useEffect, lazy, Suspense } from 'react';
 import './App.css';
 
 import { Routes, Route, Outlet, useLocation, Link } from 'react-router-dom';
 
 import Navigation from './routes/navigation/navigation.component';
-import Home from './routes/home/home.component';
-import StackedList from './routes/stackedlist/stacked-list.component'
+
+const Home = lazy(() => import('./routes/home/home.component'));
+const StackedList = lazy(() => import('./routes/stackedlist/stacked-list.component'));
+const Counter = lazy(() => import('./features/counter/Counter'));
 
 //if you are in DEV go to /login
 const redirectUrl = 'https://github.com';
@@ -46,28 +46,35 @@ const Footer = () => {
   )
 }
 
+const Fallback = () => {
+  return <div></div>
+}
+
 const App = () => {
   const { pathname } = useLocation();
 
   return (
     <>
-      {/* You need to have a wrapper here with a content and a footer for the footer to be sticky */}
-      <div className="flex flex-col min-h-screen">
-        <div className="flex-grow">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Navigation />}>
-              <Route index element={<Home />} />
-              <Route path="stacked" element={<StackedList />}/>
-              <Route element={<ProtectedRoute />}>
-                <Route path="counter" element={<Counter />}/>
-                {/* Add all your routes here */}
+      <Suspense fallback={<Fallback />}>
+        {/* You need to have a wrapper here with a content and a footer for the footer to be sticky */}
+        <div className="flex flex-col min-h-screen">
+          <div className="flex-grow">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+
+              <Route path="/" element={<Navigation />}>
+                <Route index element={<Home />} />
+                <Route path="stacked" element={<StackedList />}/>
+                <Route element={<ProtectedRoute />}>
+                  <Route path="counter" element={<Counter />}/>
+                  {/* Add all your protected routes here routes here */}
+                </Route>
               </Route>
-            </Route>
-          </Routes>
+            </Routes>
+          </div>
+          { pathname !== '/login' && <Footer /> } 
         </div>
-        { pathname !== '/login' && <Footer /> } 
-      </div>
+      </Suspense>
     </>
   );
 }
