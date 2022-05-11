@@ -1,7 +1,8 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import { CalendarIcon, ChevronRightIcon,
   ArrowSmRightIcon, LockClosedIcon,
-   PencilAltIcon, TrashIcon, CheckCircleIcon } from '@heroicons/react/solid'
+   PencilAltIcon, TrashIcon, CheckCircleIcon,
+  LoginIcon, LogoutIcon, SearchIcon, UsersIcon, BriefcaseIcon, StarIcon, DocumentTextIcon } from '@heroicons/react/solid'
 
 import Dropdown from '../../components/dropdown.component'
 
@@ -142,6 +143,7 @@ function classNames(...classes) {
 
 export default function Home() {
   const checkbox = useRef()
+  const [sideBarExpanded, setSideBarExpanded] = useState(false);
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
   const [selectedPeople, setSelectedPeople] = useState([])
@@ -159,15 +161,62 @@ export default function Home() {
     setIndeterminate(false)
   }
 
+  const handleSideBarExpanded = () => {
+      setSideBarExpanded(!sideBarExpanded);
+  }
+
+  const SlimSideBar = () => {
+    return (
+      <div className="fixed flex bg-gray-100 min-h-screen flex-col z-50 border-r-2 p-4 w-14">
+        <LogoutIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer" onClick={handleSideBarExpanded}/>
+        <SearchIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>
+        <BriefcaseIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>{/* LSP */}
+        <UsersIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>{/* linguist pending workload distribution. Add tooltip  */}
+        <StarIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>{/* prefered search */}
+        <DocumentTextIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>{/* New Segment */}
+      </div>
+    )
+  }
+
+  const ExpandedSideBar = () => {
+    return (
+      <div className="fixed flex bg-gray-100 min-h-screen flex-col z-50 border-r-2 p-3 w-64">
+        <div className="flex flex-row">
+          <div className='basis-[90%]'>
+            <div className="border-b border-gray-200">
+              <nav className="flex space-x-5">
+                <a className="cursor-pointer whitespace-nowrap py-2 px-1 border-b-2 font-medium text-xs border-indigo-500 text-indigo-600">
+                  <SearchIcon className="h-5 w-5 text-gray-400"/>
+                </a>
+                <a className="cursor-pointer whitespace-nowrap py-2 px-1 border-b-2 font-medium text-xs border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                  <BriefcaseIcon className="h-5 w-5 text-gray-400"/>
+                </a>
+                <a className="cursor-pointer whitespace-nowrap py-2 px-1 border-b-2 font-medium text-xs border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                  <UsersIcon className="h-5 w-5 text-gray-400"/>
+                </a>
+                <a className="cursor-pointer whitespace-nowrap py-2 px-1 border-b-2 font-medium text-xs border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                  <StarIcon className="h-5 w-5 text-gray-400"/>
+                </a>
+              </nav>
+            </div>
+          </div>
+          <div className='basis-[10%] pt-1'>
+            <LoginIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer" onClick={handleSideBarExpanded}/>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
     <div style={{ marginTop: '65px' }}></div>
     <div class="flex">
-    
-    <div class="fixed flex min-h-screen w-64 flex-col z-50 border-r-2 p-5">sidebar</div> {/* w-64 when expanded. w-14 skinny */}
-  
+
+    { sideBarExpanded ? <ExpandedSideBar /> : <SlimSideBar /> }
+
     <div class="w-full">
-      <div class="mt-1" style={{ marginLeft: '270px' }}>{/* 60px when skinny */}
+      <div class="mt-1" style={{ marginLeft: sideBarExpanded ? '270px' : '70px' }}>
          <div className="shadow md:px-3 h-14
                             fixed z-10 bg-white border-solid border-b-2
                              border-gray-200 p-2 w-full flex flex-row" style={{ marginTop: '-85px' }}>
@@ -260,7 +309,7 @@ export default function Home() {
                 </td>
                 <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">
                   <div className="flex items-center text-sm text-gray-500">
-                    <CalendarIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" aria-hidden="true" />
+                    <CalendarIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
                     <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-red-300" />
                     <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
                     <TrashIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
