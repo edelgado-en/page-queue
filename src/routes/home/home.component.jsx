@@ -13,8 +13,11 @@ import Select from 'react-select';
 import { STANDARD_DROPDOWN_STYLES } from '../../contants';
 
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
+
+import ReactTooltip from 'react-tooltip';
+
+import "./home.styles.css"
 
 const people = [
   {
@@ -159,6 +162,7 @@ export default function Home() {
   const checkbox = useRef()
   const [sideBarExpanded, setSideBarExpanded] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
+  const [showMore, setShowMore] = useState(false);
 
   const [selectedOption, setSelectedOption] = useState(null);
   const [checked, setChecked] = useState(false)
@@ -179,13 +183,32 @@ export default function Home() {
   }
 
   const handleSideBarExpanded = () => {
+      setShowMore(false);
       setSideBarExpanded(!sideBarExpanded);
+  }
+
+  const handleShowMore = () => {
+    setShowMore(true);
   }
 
   const SlimSideBar = () => {
     return (
       <div className="fixed flex bg-gray-100 min-h-screen flex-col z-50 border-r-2 p-4 w-14">
-        <LogoutIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer" onClick={handleSideBarExpanded}/>
+        <ReactTooltip
+            id="sidebar"
+            place="right"
+            type="dark"
+            effect="solid"
+            className="tooltip-general"
+            multiline={true}
+          />
+        <LogoutIcon 
+            data-for="sidebar"
+            data-tip="Expand"
+            data-iscapture="true"
+            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer"
+            onClick={handleSideBarExpanded}
+        />
         <SearchIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>
         <BriefcaseIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>{/* LSP */}
         <UsersIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>{/* linguist pending workload distribution. Add tooltip  */}
@@ -227,7 +250,9 @@ export default function Home() {
                there is no need to keep showing them all the time.
             */}
             <div>
-              <div className="text-xs">Translation Type</div>
+              <label className="block text-xs font-medium text-gray-700 mb-1 mt-2">
+                Translation Status
+              </label>
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
@@ -236,7 +261,9 @@ export default function Home() {
                 options={options}
               />
 
-              <div className="text-xs mt-2">Translation Status</div>
+              <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
+                LSP
+              </label>
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
@@ -245,25 +272,9 @@ export default function Home() {
                 options={options}
               />
 
-              <div className="text-xs mt-2">Content Type</div>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
-              
-              <div className="text-xs mt-2">TAT Status</div>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
-
-              <div className="text-xs mt-2">LSP</div>
+              <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
+                TAT Status
+              </label>
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
@@ -272,7 +283,9 @@ export default function Home() {
                 options={options}
               />
 
-              <div className="text-xs mt-2">Flags</div>
+              <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
+                Flags
+              </label>
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
@@ -281,43 +294,9 @@ export default function Home() {
                 options={options}
               />
 
-              <div className="text-xs mt-2">Project Code</div>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
+              { !showMore && <div className="w-full border-t border-gray-300 my-5" /> }
 
-              <div className="text-xs mt-2">Priority</div>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
-
-              <div className="text-xs mt-2">Internal Reviewer</div>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
-
-              <div className="text-xs mt-2">Requested By</div>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
-
-              <label htmlFor="email" className="block text-xs font-medium text-gray-700 mt-2">
+              <label htmlFor="ids" className={`block text-xs font-medium text-gray-700`}>
                 Page Ids
               </label>
               <input
@@ -329,7 +308,7 @@ export default function Home() {
               />
 
               {/* Put this in a component */}
-              <label htmlFor="email" className="block text-xs font-medium text-gray-700 mt-2">
+              <label htmlFor="urls" className="block text-xs font-medium text-gray-700 mt-2">
                 Page Urls
               </label>
               <input
@@ -349,15 +328,88 @@ export default function Home() {
                 className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md p-2"
                 onChange={(date) => setStartDate(date)} />
 
-              <label className="block text-xs font-medium text-gray-700 mt-2">
-                Queue End Date
-              </label>
-              <DatePicker 
-                selected={startDate}
-                showTimeSelect
-                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md p-2"
-                onChange={(date) => setStartDate(date)} />
+              { !showMore && <div onClick={handleShowMore} className="cursor-pointer text-xs text-blue-400 mt-6">Show More</div> }
+              
+              { showMore ? (
+                  <>
+                    <label className="block text-xs font-medium text-gray-700 mt-2">
+                      Queue End Date
+                    </label>
+                    <DatePicker 
+                      selected={startDate}
+                      showTimeSelect
+                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md p-2"
+                      onChange={(date) => setStartDate(date)} />
 
+                    <label className="block text-xs font-medium text-gray-700 mt-2">
+                      Translation Type
+                    </label>
+                      <Select
+                        maxMenuHeight={850}
+                        styles={STANDARD_DROPDOWN_STYLES}
+                        defaultValue={selectedOption}
+                        onChange={setSelectedOption}
+                        options={options}
+                      />
+
+                      <label className="block text-xs font-medium text-gray-700 mt-2">
+                        Content Type
+                      </label>
+                      <Select
+                        maxMenuHeight={850}
+                        styles={STANDARD_DROPDOWN_STYLES}
+                        defaultValue={selectedOption}
+                        onChange={setSelectedOption}
+                        options={options}
+                      />
+
+                      <label className="block text-xs font-medium text-gray-700 mt-2">
+                        Project Code
+                      </label>
+                      <Select
+                        maxMenuHeight={850}
+                        styles={STANDARD_DROPDOWN_STYLES}
+                        defaultValue={selectedOption}
+                        onChange={setSelectedOption}
+                        options={options}
+                      />
+
+                      <label className="block text-xs font-medium text-gray-700 mt-2">
+                        Priority
+                      </label>
+                      <Select
+                        maxMenuHeight={850}
+                        styles={STANDARD_DROPDOWN_STYLES}
+                        defaultValue={selectedOption}
+                        onChange={setSelectedOption}
+                        options={options}
+                      />
+
+                      <label className="block text-xs font-medium text-gray-700 mt-2">
+                        Internal Reviewer
+                      </label>
+                      <Select
+                        maxMenuHeight={850}
+                        styles={STANDARD_DROPDOWN_STYLES}
+                        defaultValue={selectedOption}
+                        onChange={setSelectedOption}
+                        options={options}
+                      />
+
+                      <label className="block text-xs font-medium text-gray-700 mt-2">
+                        Requested By
+                      </label>
+                      <Select
+                        maxMenuHeight={850}
+                        styles={STANDARD_DROPDOWN_STYLES}
+                        defaultValue={selectedOption}
+                        onChange={setSelectedOption}
+                        options={options}
+                      />
+                  </>
+              ) 
+              : null
+              }
             </div>
            
         </div>
