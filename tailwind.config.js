@@ -5,5 +5,7 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms') //this is needed for input fields to be styled correctly
+  ],
 }
