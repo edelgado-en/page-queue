@@ -4,9 +4,11 @@ import { CalendarIcon, ChevronRightIcon,
    PencilAltIcon, TrashIcon, CheckCircleIcon,
   LoginIcon, LogoutIcon, SearchIcon, UsersIcon, BriefcaseIcon, StarIcon, DocumentTextIcon } from '@heroicons/react/solid'
 
-import Dropdown from '../../components/dropdown.component'
+import Dropdown from '../../components/dropdown.component';
 
 import ActionBar from '../../components/action-bar.component'
+
+import Search from '../../components/search.component';
 
 import Select from 'react-select';
 
@@ -16,6 +18,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import ReactTooltip from 'react-tooltip';
+
+import LSPDashboard from '../../components/lsp-dashboard.component';
 
 import "./home.styles.css"
 
@@ -161,10 +165,9 @@ const options = [
 export default function Home() {
   const checkbox = useRef()
   const [sideBarExpanded, setSideBarExpanded] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
-  const [showMore, setShowMore] = useState(false);
+  
+  const [activeTab, setActiveTab] = useState("search"); //use Enum or Constant
 
-  const [selectedOption, setSelectedOption] = useState(null);
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
   const [selectedPeople, setSelectedPeople] = useState([])
@@ -183,12 +186,12 @@ export default function Home() {
   }
 
   const handleSideBarExpanded = () => {
-      setShowMore(false);
+      //setShowMore(false); //need to dispatch this
       setSideBarExpanded(!sideBarExpanded);
   }
 
-  const handleShowMore = () => {
-    setShowMore(true);
+  const handleSetActiveTab = (tab) => {
+      setActiveTab(tab);
   }
 
   const SlimSideBar = () => {
@@ -225,16 +228,35 @@ export default function Home() {
           <div className='basis-[90%]'>
             <div className="border-b border-gray-200">
               <nav className="flex space-x-5">
-                <a className="cursor-pointer whitespace-nowrap py-2 px-1 border-b-2 font-medium text-xs border-indigo-500 text-indigo-600">
+                <a onClick={() => handleSetActiveTab('search')}
+                   className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+                              font-medium text-xs
+                              ${activeTab === 'search' ? 'border-indigo-500 text-indigo-600' : 'hover:text-gray-700 hover:border-gray-300'}
+                              `}>
                   <SearchIcon className="h-5 w-5 text-gray-400"/>
                 </a>
-                <a className="cursor-pointer whitespace-nowrap py-2 px-1 border-b-2 font-medium text-xs border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                
+                <a onClick={() => handleSetActiveTab('lsp')}
+                   className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+                             font-medium text-xs border-transparent
+                              ${activeTab === 'lsp' ? 'border-indigo-500 text-indigo-600' : 'hover:text-gray-700 hover:border-gray-300'}
+                             `}>
                   <BriefcaseIcon className="h-5 w-5 text-gray-400"/>
                 </a>
-                <a className="cursor-pointer whitespace-nowrap py-2 px-1 border-b-2 font-medium text-xs border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                
+                <a onClick={() => handleSetActiveTab('users')} 
+                    className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+                    font-medium text-xs border-transparent
+                     ${activeTab === 'users' ? 'border-indigo-500 text-indigo-600' : 'hover:text-gray-700 hover:border-gray-300'}
+                    `}>
                   <UsersIcon className="h-5 w-5 text-gray-400"/>
                 </a>
-                <a className="cursor-pointer whitespace-nowrap py-2 px-1 border-b-2 font-medium text-xs border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                
+                <a onClick={() => handleSetActiveTab('preferredSearches')} 
+                    className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+                    font-medium text-xs border-transparent
+                     ${activeTab === 'preferredSearches' ? 'border-indigo-500 text-indigo-600' : 'hover:text-gray-700 hover:border-gray-300'}
+                    `}>
                   <StarIcon className="h-5 w-5 text-gray-400"/>
                 </a>
               </nav>
@@ -245,188 +267,9 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mt-3 px-3 overflow-y-auto lg:h-[80%] md:h-[70%] sm:h-[60%]">
-            {/* The filters that are never used should be hidden in a "show more link" because they are almost never used
-               there is no need to keep showing them all the time.
-            */}
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1 mt-2">
-                Translation Status
-              </label>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
+        {activeTab === 'search' && <Search />}
 
-              <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
-                LSP
-              </label>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
-
-              <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
-                TAT Status
-              </label>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
-
-              <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
-                Flags
-              </label>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
-
-              { !showMore && <div className="w-full border-t border-gray-300 my-5" /> }
-
-              <label htmlFor="ids" className={`block text-xs font-medium text-gray-700`}>
-                Page Ids
-              </label>
-              <input
-                type="text"
-                name="ids"
-                id="ids"
-                className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md"
-                placeholder="1,2,3,4,5..."
-              />
-
-              {/* Put this in a component */}
-              <label htmlFor="urls" className="block text-xs font-medium text-gray-700 mt-2">
-                Page Urls
-              </label>
-              <input
-                type="text"
-                name="urls"
-                id="urls"
-                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md"
-                placeholder="url1,url2,url3..."
-              />
-
-              <label className="block text-xs font-medium text-gray-700 mt-2">
-                Queue Start Date
-              </label>
-              <DatePicker 
-                selected={startDate}
-                showTimeSelect
-                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md p-2"
-                onChange={(date) => setStartDate(date)} />
-
-              { !showMore && <div onClick={handleShowMore} className="cursor-pointer text-xs text-blue-400 mt-6">Show More</div> }
-              
-              { showMore ? (
-                  <>
-                    <label className="block text-xs font-medium text-gray-700 mt-2">
-                      Queue End Date
-                    </label>
-                    <DatePicker 
-                      selected={startDate}
-                      showTimeSelect
-                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md p-2"
-                      onChange={(date) => setStartDate(date)} />
-
-                    <label className="block text-xs font-medium text-gray-700 mt-2">
-                      Translation Type
-                    </label>
-                      <Select
-                        maxMenuHeight={850}
-                        styles={STANDARD_DROPDOWN_STYLES}
-                        defaultValue={selectedOption}
-                        onChange={setSelectedOption}
-                        options={options}
-                      />
-
-                      <label className="block text-xs font-medium text-gray-700 mt-2">
-                        Content Type
-                      </label>
-                      <Select
-                        maxMenuHeight={850}
-                        styles={STANDARD_DROPDOWN_STYLES}
-                        defaultValue={selectedOption}
-                        onChange={setSelectedOption}
-                        options={options}
-                      />
-
-                      <label className="block text-xs font-medium text-gray-700 mt-2">
-                        Project Code
-                      </label>
-                      <Select
-                        maxMenuHeight={850}
-                        styles={STANDARD_DROPDOWN_STYLES}
-                        defaultValue={selectedOption}
-                        onChange={setSelectedOption}
-                        options={options}
-                      />
-
-                      <label className="block text-xs font-medium text-gray-700 mt-2">
-                        Priority
-                      </label>
-                      <Select
-                        maxMenuHeight={850}
-                        styles={STANDARD_DROPDOWN_STYLES}
-                        defaultValue={selectedOption}
-                        onChange={setSelectedOption}
-                        options={options}
-                      />
-
-                      <label className="block text-xs font-medium text-gray-700 mt-2">
-                        Internal Reviewer
-                      </label>
-                      <Select
-                        maxMenuHeight={850}
-                        styles={STANDARD_DROPDOWN_STYLES}
-                        defaultValue={selectedOption}
-                        onChange={setSelectedOption}
-                        options={options}
-                      />
-
-                      <label className="block text-xs font-medium text-gray-700 mt-2">
-                        Requested By
-                      </label>
-                      <Select
-                        maxMenuHeight={850}
-                        styles={STANDARD_DROPDOWN_STYLES}
-                        defaultValue={selectedOption}
-                        onChange={setSelectedOption}
-                        options={options}
-                      />
-                  </>
-              ) 
-              : null
-              }
-            </div>
-           
-        </div>
-        <div className="h-[15%] px-3 text-right py-4">
-          <button
-            type="button"
-            className="mr-3 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Add Pref Search
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Search
-          </button>
-        </div>
+        {activeTab === 'lsp' && <LSPDashboard />}
 
       </div>
     )

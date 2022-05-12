@@ -36,7 +36,7 @@ export default function Example() {
                     'block px-4 py-2 text-sm'
                   )}
                 >
-                  Edit
+                  Open Tasks
                 </a>
               )}
             </Menu.Item>
@@ -49,35 +49,7 @@ export default function Example() {
                     'block px-4 py-2 text-sm'
                   )}
                 >
-                  Duplicate
-                </a>
-              )}
-            </Menu.Item>
-          </div>
-          <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  Archive
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  Move
+                  New Segments
                 </a>
               )}
             </Menu.Item>
@@ -92,7 +64,7 @@ export default function Example() {
                     'block px-4 py-2 text-sm'
                   )}
                 >
-                  Share
+                  Assign to LSP
                 </a>
               )}
             </Menu.Item>
@@ -105,7 +77,7 @@ export default function Example() {
                     'block px-4 py-2 text-sm'
                   )}
                 >
-                  Add to favorites
+                  Assign to Internal Reviewer
                 </a>
               )}
             </Menu.Item>
@@ -120,7 +92,20 @@ export default function Example() {
                     'block px-4 py-2 text-sm'
                   )}
                 >
-                  Delete
+                  Delete Tasks
+                </a>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  href="#"
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  Update Tasks
                 </a>
               )}
             </Menu.Item>
