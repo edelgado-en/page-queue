@@ -26,7 +26,7 @@ const Search = () => {
 
     return (
         <>
-            <div className="mt-3 px-3 overflow-y-auto lg:h-[80%] md:h-[70%] sm:h-[60%]">
+            <div className="mt-2 px-3 overflow-y-auto lg:h-[80%] md:h-[70%] sm:h-[60%]">
                 {/* The filters that are never used should be hidden in a "show more link" because they are almost never used
                 there is no need to keep showing them all the time.
                 */}
@@ -195,18 +195,18 @@ const Search = () => {
            
             </div>
             <div className="h-[15%] px-3 text-right py-4">
-            <button
-                type="button"
-                className="mr-3 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-                Add Pref Search
-            </button>
-            <button
-                type="button"
-                className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-                Search
-            </button>
+                <button
+                    type="button"
+                    className="mr-3 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Add Pref Search
+                </button>
+                <button
+                    type="button"
+                    className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Search
+                </button>
             </div>
         </>
     )

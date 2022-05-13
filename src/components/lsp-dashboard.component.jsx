@@ -1,5 +1,11 @@
 import { ArrowSmDownIcon, ArrowSmUpIcon } from '@heroicons/react/solid'
 
+import { useState } from 'react';
+
+import Select from 'react-select';
+
+import { STANDARD_DROPDOWN_STYLES } from '../contants';
+
 const stats = [
   { name: 'Total', stat: '71,897', previousStat: '70,946', change: '', changeType: '' },
   { name: 'Past Due', stat: '25,567', previousStat: '56.14%', change: '2.02%', changeType: 'decrease' },
@@ -11,9 +17,27 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+const options = [
+  { value: 1, label: 'ProTranslating' },
+  { value: 2, label: 'MLG International' }
+];
+
 export default function Example() {
+  const [selectedOption, setSelectedOption] = useState(options[0]);
+
   return (
-    <div>
+    <div className="mt-3 overflow-y-auto lg:h-[80%] md:h-[70%] sm:h-[60%]">
+      <label className="block text-xs font-medium text-gray-700 mb-1">
+          LSP
+      </label>
+      <Select
+          maxMenuHeight={850}
+          styles={STANDARD_DROPDOWN_STYLES}
+          defaultValue={selectedOption}
+          onChange={setSelectedOption}
+          options={options}
+      />
+
       <dl className="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 divide-x">
         {stats.map((item) => (
           <div key={item.name} className="px-4 py-3 cursor-pointer hover:bg-gray-100">
@@ -49,12 +73,46 @@ export default function Example() {
                   </div>
                 </>
               }
-
               
             </div>
           </div>
         ))}
       </dl>
+      <table className="divide-y divide-gray-300 mt-7 w-full text-right">
+        <thead className="bg-gray-50">
+          <tr>
+            <th scope="col" className="">
+              
+            </th>
+            <th scope="col" className="pr-3 py-1.5 text-xs font-semibold text-gray-900">
+              Unique Words
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 bg-white">
+            <tr>
+              <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">Total</td>
+              <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">1,345</td>
+            </tr>
+            <tr>
+              <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">New</td>
+              <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">1,345</td>
+            </tr>
+            <tr>
+              <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">Tranlated</td>
+              <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">1,345</td>
+            </tr>
+            <tr>
+              <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">Reviewed</td>
+              <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">1,345</td>
+            </tr>
+            <tr>
+              <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">Activated</td>
+              <td className="whitespace-nowrap px-3 py-2 text-xs text-gray-500">1,345</td>
+            </tr>
+        </tbody>
+      </table>
+      <div className="m-8"></div>
     </div>
   )
 }

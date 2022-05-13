@@ -1,8 +1,8 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { CalendarIcon, ChevronRightIcon,
+import { CalendarIcon, ChevronDownIcon,
   ArrowSmRightIcon, LockClosedIcon,
-   PencilAltIcon, TrashIcon, CheckCircleIcon,
-  LoginIcon, LogoutIcon, SearchIcon, UsersIcon, BriefcaseIcon, StarIcon, DocumentTextIcon } from '@heroicons/react/solid'
+   PencilAltIcon, TrashIcon, CheckIcon,
+  LoginIcon, LogoutIcon, SearchIcon, UsersIcon, BriefcaseIcon, StarIcon, DocumentIcon } from '@heroicons/react/solid'
 
 import Dropdown from '../../components/dropdown.component';
 
@@ -10,20 +10,12 @@ import ActionBar from '../../components/action-bar.component'
 
 import Search from '../../components/search.component';
 
-import Select from 'react-select';
-
-import { STANDARD_DROPDOWN_STYLES } from '../../contants';
-
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-
 import ReactTooltip from 'react-tooltip';
-
 import LSPDashboard from '../../components/lsp-dashboard.component';
-
+import UserStats from '../../components/user-stats.component';
 import "./home.styles.css"
 
-const people = [
+const data = [
   {
     name: 'Enrique Delgado',
     title: 'Software Engineer',
@@ -156,14 +148,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
-
 export default function Home() {
   const checkbox = useRef()
+  const [people, setPeople] = useState(data);
   const [sideBarExpanded, setSideBarExpanded] = useState(false);
   
   const [activeTab, setActiveTab] = useState("search"); //use Enum or Constant
@@ -179,10 +166,14 @@ export default function Home() {
     checkbox.current.indeterminate = isIndeterminate
   }, [selectedPeople])
 
-  function toggleAll() {
+  const toggleAll = () => {
     setSelectedPeople(checked || indeterminate ? [] : people)
     setChecked(!checked && !indeterminate)
     setIndeterminate(false)
+  }
+
+  const handleOpenTask = (page) => {
+    console.log(page);
   }
 
   const handleSideBarExpanded = () => {
@@ -212,11 +203,21 @@ export default function Home() {
             className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer"
             onClick={handleSideBarExpanded}
         />
-        <SearchIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>
-        <BriefcaseIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>{/* LSP */}
-        <UsersIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>{/* linguist pending workload distribution. Add tooltip  */}
-        <StarIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>{/* prefered search */}
-        <DocumentTextIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6" onClick={handleSideBarExpanded}/>{/* New Segment */}
+        <SearchIcon 
+            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+            onClick={handleSideBarExpanded}/>
+        <BriefcaseIcon 
+            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+            onClick={handleSideBarExpanded}/>{/* LSP */}
+        <UsersIcon 
+            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+            onClick={handleSideBarExpanded}/>{/* linguist pending workload distribution. Add tooltip  */}
+        <StarIcon 
+            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+            onClick={handleSideBarExpanded}/>{/* prefered search */}
+        <DocumentIcon
+            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+            onClick={handleSideBarExpanded}/>{/* New Segment */}
       </div>
     )
   }
@@ -271,6 +272,8 @@ export default function Home() {
 
         {activeTab === 'lsp' && <LSPDashboard />}
 
+        {activeTab === 'users' && <UserStats />}
+
       </div>
     )
   }
@@ -283,10 +286,10 @@ export default function Home() {
     { sideBarExpanded ? <ExpandedSideBar /> : <SlimSideBar /> }
 
     <div class="w-full">
-      <div class="mt-1" style={{ marginLeft: sideBarExpanded ? '270px' : '70px' }}>
+      <div class="mt-1" style={{ marginLeft: sideBarExpanded ? '257px' : '57px' }}>
          <div className="shadow md:px-3
                             fixed z-10 bg-white border-solid border-b-2
-                             border-gray-200 p-2 w-full flex flex-row" style={{ marginTop: '-85px'}}>
+                             border-gray-200 p-2 w-full flex flex-row" style={{ marginTop: '-66px'}}>
               <div className="md:basis-[20%] sm:basis-[30%]">
                   <Dropdown />
                   <span className="text-xs mr-2 ml-2">1,439 Tasks</span>
@@ -295,6 +298,9 @@ export default function Home() {
               <div className="basis-[80%]">
 
                 {selectedPeople.length > 0 && 
+                /* GET RID OF CARDS BECAUSE IT LOOKS TOO CROWDED. JUST TRY TEXT ALONE. ALWAYS SHOW ALL 4 COUNTERS 
+                  SO THAT USERS REMEMBER POSITIONS. ALWAYS THE SAME
+                */
                   <>
                     <div className="inline-flex shadow-sm rounded-md w-48">
                         <div
@@ -363,7 +369,7 @@ export default function Home() {
               </div>
               
         </div>
-      <table className="divide-y divide-gray-300 w-full" style={{ marginTop: '86px' }}>
+      <table className="divide-y divide-gray-300 w-full" style={{ marginTop: '66px' }}>
           <thead className="bg-gray-50">
             <tr>
               <th scope="col" className="relative w-12 px-6 sm:w-16 sm:px-8">
@@ -383,6 +389,9 @@ export default function Home() {
               </th>
               <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
                 Text
+              </th>
+              <th scope="col" className="px-3 py-1.5 text-center text-xs font-semibold text-gray-900">
+                % Trans
               </th>
               <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
                 Words
@@ -440,43 +449,48 @@ export default function Home() {
                 <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">
                   <div className="flex items-center text-sm text-gray-500">
                     <CalendarIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                    <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-red-300" />
+                    <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
                     <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
                     <TrashIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
                   </div>
                 </td>
-                <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">
+                <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500 bg-green-100">
                   <div className="flex flex-row flex-nowrap gap-1">
                       <div className="text-xs">
-                          <p className="px-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              Translated
+                          <p className="px-1.5 inline-flex text-xs leading-5 text-gray-500 ">
+                              New
                           </p>
                       </div>
-                      <div className="text-xs">96%</div>
+                      {/* <div className="text-xs font-semibold">96%</div> */}
                   </div>
                 </td>
-                <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                <div className="text-xs">5,678</div>
+                <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-center">
+                  <div className="text-xs">98%</div>
                 </td>
                 <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                  <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" />
+                  <div className="text-xs">5,678</div>
+                </td>
+                <td className="whitespace-nowrap px-3 py-1.5 text-xs ">
+                  <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
                 </td>
                 <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                  <div className="text-xs">04-29-2022 08:58 AM</div>
-                      <span>TransSync</span>   
+                  <span className="text-xs">04-29 08:58 AM</span>
+                  <span className="ml-2">(TS)</span>   
                 </td>
                 <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                  <div className="text-xs">04-29-2022 09:15 AM</div>
-                  <div className="text-xs">AP</div>
+                <span className="text-xs">04-29 08:58 AM</span>
+                  <span className="ml-2">(AP)</span>
                 </td>
                 <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                  <div className="text-xs">04-29-2022 08:58 AM</div>
-                  <div className="text-xs">
+                  <span className="text-xs">04-29 08:58 AM</span>
+                  <div className="text-xs inline-block ml-1">
                       <span className="font-semibold bg-sky-100  px-1">PTS</span> <ArrowSmRightIcon className="h-3 w-3 inline-block" /> <span>edelgado</span> <ArrowSmRightIcon className="h-3 w-3 inline-block" /> <span>adeberry</span>
                   </div>
                 </td>
                 <td>
-                  <ChevronRightIcon className="h-4 w-4 text-gray-400 cursor-pointer"/>
+                  <ChevronDownIcon 
+                    onClick={() => handleOpenTask(person)}
+                    className="h-4 w-4 text-gray-400 cursor-pointer"/>
                 </td>
               </tr>
             ))}
