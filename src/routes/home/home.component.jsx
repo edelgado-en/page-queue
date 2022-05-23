@@ -1,506 +1,183 @@
-import { useLayoutEffect, useRef, useState } from 'react'
-import { CalendarIcon, ChevronDownIcon,
-  ArrowSmRightIcon, LockClosedIcon,
-   PencilAltIcon, TrashIcon, CheckIcon,
-  LoginIcon, LogoutIcon, SearchIcon, UsersIcon, BriefcaseIcon, StarIcon, DocumentIcon } from '@heroicons/react/solid'
+import { useState } from "react";
+import {
+  LoginIcon,
+  LogoutIcon,
+  SearchIcon,
+  UsersIcon,
+  BriefcaseIcon,
+  StarIcon,
+  DocumentIcon,
+} from "@heroicons/react/solid";
 
-import Dropdown from '../../components/dropdown.component';
+import ActionBar from "./components/action-bar.component";
+import PageTable from "./components/page-table.component";
+import Search from "../../components/search.component";
 
-import ActionBar from '../../components/action-bar.component'
+import ReactTooltip from "react-tooltip";
+import LSPDashboard from "../../components/lsp-dashboard.component";
+import UserStats from "../../components/user-stats.component";
+import "./home.styles.css";
 
-import Search from '../../components/search.component';
-
-import ReactTooltip from 'react-tooltip';
-import LSPDashboard from '../../components/lsp-dashboard.component';
-import UserStats from '../../components/user-stats.component';
-import "./home.styles.css"
-
-const data = [
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  },
-  {
-    name: 'Enrique Delgado',
-    title: 'Software Engineer',
-    email: 'edelgado@example.com',
-  }
-
-]
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
-export default function Home() {
-  const checkbox = useRef()
-  const [people, setPeople] = useState(data);
+const Home = () => {
   const [sideBarExpanded, setSideBarExpanded] = useState(false);
-  
   const [activeTab, setActiveTab] = useState("search"); //use Enum or Constant
 
-  const [checked, setChecked] = useState(false)
-  const [indeterminate, setIndeterminate] = useState(false)
-  const [selectedPeople, setSelectedPeople] = useState([])
-
-  useLayoutEffect(() => {
-    const isIndeterminate = selectedPeople.length > 0 && selectedPeople.length < people.length
-    setChecked(selectedPeople.length === people.length)
-    setIndeterminate(isIndeterminate)
-    checkbox.current.indeterminate = isIndeterminate
-  }, [selectedPeople])
-
-  const toggleAll = () => {
-    setSelectedPeople(checked || indeterminate ? [] : people)
-    setChecked(!checked && !indeterminate)
-    setIndeterminate(false)
-  }
-
-  const handleOpenTask = (page) => {
-    console.log(page);
-  }
-
   const handleSideBarExpanded = () => {
-      //setShowMore(false); //need to dispatch this
-      setSideBarExpanded(!sideBarExpanded);
-  }
+    //setShowMore(false); //need to dispatch this
+    setSideBarExpanded(!sideBarExpanded);
+  };
 
   const handleSetActiveTab = (tab) => {
-      setActiveTab(tab);
-  }
+    setActiveTab(tab);
+  };
 
   const SlimSideBar = () => {
     return (
       <div className="fixed flex bg-gray-100 min-h-screen flex-col z-50 border-r-2 p-4 w-14">
         <ReactTooltip
-            id="sidebar"
-            place="right"
-            type="dark"
-            effect="solid"
-            className="tooltip-general"
-            multiline={true}
-          />
-        <LogoutIcon 
-            data-for="sidebar"
-            data-tip="Expand"
-            data-iscapture="true"
-            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer"
-            onClick={handleSideBarExpanded}
+          id="sidebar"
+          place="right"
+          type="dark"
+          effect="solid"
+          className="tooltip-general"
+          multiline={true}
         />
-        <SearchIcon 
-            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-            onClick={handleSideBarExpanded}/>
-        <BriefcaseIcon 
-            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-            onClick={handleSideBarExpanded}/>{/* LSP */}
-        <UsersIcon 
-            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-            onClick={handleSideBarExpanded}/>{/* linguist pending workload distribution. Add tooltip  */}
-        <StarIcon 
-            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-            onClick={handleSideBarExpanded}/>{/* prefered search */}
+        <LogoutIcon
+          data-for="sidebar"
+          data-tip="Expand"
+          data-iscapture="true"
+          className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer"
+          onClick={handleSideBarExpanded}
+        />
+        <SearchIcon
+          className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+          onClick={handleSideBarExpanded}
+        />
+        <BriefcaseIcon
+          className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+          onClick={handleSideBarExpanded}
+        />
+        {/* LSP */}
+        <UsersIcon
+          className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+          onClick={handleSideBarExpanded}
+        />
+        {/* linguist pending workload distribution. Add tooltip  */}
+        <StarIcon
+          className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+          onClick={handleSideBarExpanded}
+        />
+        {/* prefered search */}
         <DocumentIcon
-            className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-            onClick={handleSideBarExpanded}/>{/* New Segment */}
+          className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
+          onClick={handleSideBarExpanded}
+        />
+        {/* New Segment */}
       </div>
-    )
-  }
+    );
+  };
 
   const ExpandedSideBar = () => {
     return (
       <div className="fixed bg-gray-100 min-h-screen flex-col z-50 border-r-2 p-3 w-64 h-full">
         <div className="flex flex-row h-[4%]">
-          <div className='basis-[90%]'>
+          <div className="basis-[90%]">
             <div className="border-b border-gray-200">
               <nav className="flex space-x-5">
-                <a onClick={() => handleSetActiveTab('search')}
-                   className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+                <a
+                  onClick={() => handleSetActiveTab("search")}
+                  className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
                               font-medium text-xs
-                              ${activeTab === 'search' ? 'border-indigo-500 text-indigo-600' : 'hover:text-gray-700 hover:border-gray-300'}
-                              `}>
-                  <SearchIcon className="h-5 w-5 text-gray-400"/>
+                              ${
+                                activeTab === "search"
+                                  ? "border-indigo-500 text-indigo-600"
+                                  : "hover:text-gray-700 hover:border-gray-300"
+                              }
+                              `}
+                >
+                  <SearchIcon className="h-5 w-5 text-gray-400" />
                 </a>
-                
-                <a onClick={() => handleSetActiveTab('lsp')}
-                   className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+
+                <a
+                  onClick={() => handleSetActiveTab("lsp")}
+                  className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
                              font-medium text-xs border-transparent
-                              ${activeTab === 'lsp' ? 'border-indigo-500 text-indigo-600' : 'hover:text-gray-700 hover:border-gray-300'}
-                             `}>
-                  <BriefcaseIcon className="h-5 w-5 text-gray-400"/>
+                              ${
+                                activeTab === "lsp"
+                                  ? "border-indigo-500 text-indigo-600"
+                                  : "hover:text-gray-700 hover:border-gray-300"
+                              }
+                             `}
+                >
+                  <BriefcaseIcon className="h-5 w-5 text-gray-400" />
                 </a>
-                
-                <a onClick={() => handleSetActiveTab('users')} 
-                    className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+
+                <a
+                  onClick={() => handleSetActiveTab("users")}
+                  className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
                     font-medium text-xs border-transparent
-                     ${activeTab === 'users' ? 'border-indigo-500 text-indigo-600' : 'hover:text-gray-700 hover:border-gray-300'}
-                    `}>
-                  <UsersIcon className="h-5 w-5 text-gray-400"/>
+                     ${
+                       activeTab === "users"
+                         ? "border-indigo-500 text-indigo-600"
+                         : "hover:text-gray-700 hover:border-gray-300"
+                     }
+                    `}
+                >
+                  <UsersIcon className="h-5 w-5 text-gray-400" />
                 </a>
-                
-                <a onClick={() => handleSetActiveTab('preferredSearches')} 
-                    className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
+
+                <a
+                  onClick={() => handleSetActiveTab("preferredSearches")}
+                  className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
                     font-medium text-xs border-transparent
-                     ${activeTab === 'preferredSearches' ? 'border-indigo-500 text-indigo-600' : 'hover:text-gray-700 hover:border-gray-300'}
-                    `}>
-                  <StarIcon className="h-5 w-5 text-gray-400"/>
+                     ${
+                       activeTab === "preferredSearches"
+                         ? "border-indigo-500 text-indigo-600"
+                         : "hover:text-gray-700 hover:border-gray-300"
+                     }
+                    `}
+                >
+                  <StarIcon className="h-5 w-5 text-gray-400" />
                 </a>
               </nav>
             </div>
           </div>
-          <div className='basis-[10%] pt-1'>
-            <LoginIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer" onClick={handleSideBarExpanded}/>
+          <div className="basis-[10%] pt-1">
+            <LoginIcon
+              className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer"
+              onClick={handleSideBarExpanded}
+            />
           </div>
         </div>
 
-        {activeTab === 'search' && <Search />}
+        {activeTab === "search" && <Search />}
 
-        {activeTab === 'lsp' && <LSPDashboard />}
+        {activeTab === "lsp" && <LSPDashboard />}
 
-        {activeTab === 'users' && <UserStats />}
-
+        {activeTab === "users" && <UserStats />}
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <>
-    <div style={{ marginTop: '65px' }}></div>
-    <div class="flex">
+      <div style={{ marginTop: "65px" }}></div>
+      <div class="flex">
+        {sideBarExpanded ? <ExpandedSideBar /> : <SlimSideBar />}
 
-    { sideBarExpanded ? <ExpandedSideBar /> : <SlimSideBar /> }
-
-    <div class="w-full">
-      <div class="mt-1" style={{ marginLeft: sideBarExpanded ? '257px' : '57px' }}>
-         <div className="shadow md:px-3
-                            fixed z-10 bg-white border-solid border-b-2
-                             border-gray-200 p-2 w-full flex flex-row" style={{ marginTop: '-66px'}}>
-              <div className="md:basis-[20%] sm:basis-[30%]">
-                  <Dropdown />
-                  <span className="text-xs mr-2 ml-2">1,439 Tasks</span>
-                  {selectedPeople.length > 0 && <><span className="text-xs font-medium text-gray-500">[ {selectedPeople.length} ]</span></>}
-              </div>
-              <div className="basis-[80%]">
-
-                {selectedPeople.length > 0 && 
-                /* GET RID OF CARDS BECAUSE IT LOOKS TOO CROWDED. JUST TRY TEXT ALONE. ALWAYS SHOW ALL 4 COUNTERS 
-                  SO THAT USERS REMEMBER POSITIONS. ALWAYS THE SAME
-                */
-                  <>
-                    <div className="inline-flex shadow-sm rounded-md w-48">
-                        <div
-                            className='bg-pink-600 flex-shrink-0 flex items-center justify-center w-10
-                                        text-white text-xs font-medium rounded-l-md'>
-                            New
-                        </div>
-                        <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-                            <div className="flex-1 px-2 py-2 text-xs truncate">
-                                <span className="text-gray-900 font-medium hover:text-gray-600 text-xs">
-                                    12 Tasks
-                                </span>
-                                <span className="text-gray-500 font-medium ml-2 text-xs">15,678 Words</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="inline-flex shadow-sm rounded-md w-48 ml-5">
-                        <div
-                            className='bg-pink-600 flex-shrink-0 flex items-center justify-center w-10
-                                        text-white text-xs font-medium rounded-l-md'>
-                            TL
-                        </div>
-                        <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-                            <div className="flex-1 px-2 py-2 text-xs truncate">
-                                <span className="text-gray-900 font-medium hover:text-gray-600 text-xs">
-                                    12 Tasks
-                                </span>
-                                <span className="text-gray-500 font-medium ml-2 text-xs">15,678 Words</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="inline-flex shadow-sm rounded-md w-48 ml-5">
-                        <div
-                            className='bg-pink-600 flex-shrink-0 flex items-center justify-center w-10
-                                        text-white text-xs font-medium rounded-l-md'>
-                            CP
-                        </div>
-                        <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-                            <div className="flex-1 px-2 py-2 text-xs truncate">
-                                <span className="text-gray-900 font-medium hover:text-gray-600 text-xs">
-                                    12 Tasks
-                                </span>
-                                <span className="text-gray-500 font-medium ml-2 text-xs">15,678 Words</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="inline-flex shadow-sm rounded-md w-48 lg:ml-5 md:ml-0 sm:ml-0 md:mt-3 lg:mt-0 xl:mt-0 2xl:mt-0">
-                        <div
-                            className='bg-pink-600 flex-shrink-0 flex items-center justify-center w-10
-                                        text-white text-xs font-medium rounded-l-md'>
-                            AT
-                        </div>
-                        <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-                            <div className="flex-1 px-2 py-2 text-xs truncate">
-                                <span className="text-gray-900 font-medium hover:text-gray-600 text-xs">
-                                    12 Tasks
-                                </span>
-                                <span className="text-gray-500 font-medium ml-2 text-xs">15,678 Words</span>
-                            </div>
-                        </div>
-                    </div>  
-                  </>
-                }
-                
-              </div>
-              
+        <div class="w-full">
+          <div
+            class="mt-1"
+            style={{ marginLeft: sideBarExpanded ? "257px" : "57px" }}
+          >
+            <ActionBar />
+            <PageTable />
+            <div className="p-5"></div>
+          </div>
         </div>
-      <table className="divide-y divide-gray-300 w-full" style={{ marginTop: '66px' }}>
-          <thead className="bg-gray-50">
-            <tr>
-              <th scope="col" className="relative w-12 px-6 sm:w-16 sm:px-8">
-                <input
-                  type="checkbox"
-                  className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
-                  ref={checkbox}
-                  checked={checked}
-                  onChange={toggleAll}
-                />
-              </th>
-              <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                ID
-              </th>
-              <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                Flags
-              </th>
-              <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                Text
-              </th>
-              <th scope="col" className="px-3 py-1.5 text-center text-xs font-semibold text-gray-900">
-                % Trans
-              </th>
-              <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                Words
-              </th>
-              <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                Files
-              </th>
-              <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                Created
-              </th>
-              <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                Updated
-              </th>
-              <th scope="col" className="px-3 py-1.5 text-left text-xs font-semibold text-gray-900">
-                Assigned
-              </th>
-              <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                <span className="sr-only">Edit</span>
-              </th>
-              <th>
-
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 bg-white">
-            {people.map((person) => (
-              <tr key={person.email} className={selectedPeople.includes(person) ? 'bg-gray-50' : undefined}>
-                <td className="relative w-12 px-6 sm:w-16 sm:px-8">
-                  {selectedPeople.includes(person) && (
-                    <div className="absolute inset-y-0 left-0 w-0.5 bg-indigo-600" />
-                  )}
-                  <input
-                    type="checkbox"
-                    className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
-                    value={person.email}
-                    checked={selectedPeople.includes(person)}
-                    onChange={(e) =>
-                      setSelectedPeople(
-                        e.target.checked
-                          ? [...selectedPeople, person]
-                          : selectedPeople.filter((p) => p !== person)
-                      )
-                    }
-                  />
-                </td>
-                <td
-                  className={classNames(
-                    'whitespace-nowrap py-2 pr-3 text-xs font-medium',
-                    selectedPeople.includes(person) ? 'text-indigo-600' : 'text-gray-900'
-                  )}
-                >
-                  <span className="ml-1 font-medium text-indigo-600 truncate">88280213</span>
-                  <span className="ml-1 flex-shrink-0 font-normal text-gray-500" style={{ fontSize: '10px' }}>OSO-HTML</span>
-                </td>
-                <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">
-                  <div className="flex items-center text-sm text-gray-500">
-                    <CalendarIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                    <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                    <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                    <TrashIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                  </div>
-                </td>
-                <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500 bg-green-100">
-                  <div className="flex flex-row flex-nowrap gap-1">
-                      <div className="text-xs">
-                          <p className="px-1.5 inline-flex text-xs leading-5 text-gray-500 ">
-                              New
-                          </p>
-                      </div>
-                      {/* <div className="text-xs font-semibold">96%</div> */}
-                  </div>
-                </td>
-                <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-center">
-                  <div className="text-xs">98%</div>
-                </td>
-                <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                  <div className="text-xs">5,678</div>
-                </td>
-                <td className="whitespace-nowrap px-3 py-1.5 text-xs ">
-                  <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-                </td>
-                <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                  <span className="text-xs">04-29 08:58 AM</span>
-                  <span className="ml-2">(TS)</span>   
-                </td>
-                <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                <span className="text-xs">04-29 08:58 AM</span>
-                  <span className="ml-2">(AP)</span>
-                </td>
-                <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-                  <span className="text-xs">04-29 08:58 AM</span>
-                  <div className="text-xs inline-block ml-1">
-                      <span className="font-semibold bg-sky-100  px-1">PTS</span> <ArrowSmRightIcon className="h-3 w-3 inline-block" /> <span>edelgado</span> <ArrowSmRightIcon className="h-3 w-3 inline-block" /> <span>adeberry</span>
-                  </div>
-                </td>
-                <td>
-                  <ChevronDownIcon 
-                    onClick={() => handleOpenTask(person)}
-                    className="h-4 w-4 text-gray-400 cursor-pointer"/>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="p-5"></div>
-    </div>
-  </div>
-</div>
-    
+      </div>
     </>
-  )
-}
+  );
+};
+
+export default Home;

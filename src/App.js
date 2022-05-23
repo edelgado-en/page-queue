@@ -61,15 +61,14 @@ const App = () => {
           <div className="flex-grow">
             <Routes>
               <Route path="/login" element={<Login />} />
-
-              <Route path="/" element={<Navigation />}>
-                <Route index element={<Home />} />
-                <Route path="stacked" element={<StackedList />}/>
                 <Route element={<ProtectedRoute />}>
-                  <Route path="counter" element={<Counter />}/>
-                  {/* Add all your protected routes here routes here */}
+                    <Route path="/" element={<Navigation />}>
+                        <Route index element={<Home />} />
+                        <Route path="stacked" element={<StackedList />}/>
+                        <Route path="counter" element={<Counter />}/>
+                        {/* Add all your protected routes here routes here */}
+                    </Route>
                 </Route>
-              </Route>
             </Routes>
           </div>
           { pathname !== '/login' && <Footer /> } 
