@@ -1,9 +1,10 @@
 import { useState } from "react";
-import ActionBar from "./components/action-bar.component";
-import PageTable from "./components/page-table.component";
-import SlimSideBar from "./components/slim-side-bar.component";
-import ExpandedSideBar from "./components/expanded.side-bar.component";
-import "./home.styles.css";
+import ActionBar from "./components/actionBar/action-bar.component";
+import PageTable from "./components/tasks/page-table.component";
+import SlimSideBar from "./components/sidebar/slim/slim-side-bar.component";
+import ExpandedSideBar from "./components/sidebar/expanded/expanded.side-bar.component";
+
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 
 const Home = () => {
   const [sideBarExpanded, setSideBarExpanded] = useState(false);
@@ -17,6 +18,7 @@ const Home = () => {
     <>
       <div style={{ marginTop: "65px" }}></div>
       <div className="flex">
+        {/* In here import a component that decides this. Call it sidebar */}
         {sideBarExpanded ? (
           <ExpandedSideBar handleSideBarExpanded={handleSideBarExpanded} />
         ) : (

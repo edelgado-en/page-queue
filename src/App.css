@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.tooltip-general {
+    padding: 5px !important;
+    font-size: 12px !important;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState, useRef } from "react";
 
-import { pages } from "./pages-data";
+import { pages } from "../pages-data";
 
 import {
   CalendarIcon,
@@ -147,7 +147,7 @@ const PageTable = () => {
             </td>
             <td
               className={classNames(
-                "whitespace-nowrap py-2 pr-3 text-xs font-medium",
+                "whitespace-nowrap py-3 pr-3 text-xs font-medium",
                 selectedPeople.includes(person)
                   ? "text-indigo-600"
                   : "text-gray-900"

@@ -1,4 +1,4 @@
-import Dropdown from "../../../components/dropdown.component";
+import Dropdown from "../../../../components/dropdown.component";
 
 const ActionBar = () => {
   return (

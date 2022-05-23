@@ -8,9 +8,9 @@ import {
   StarIcon,
 } from "@heroicons/react/solid";
 
-import LSPDashboard from "../../../components/lsp-dashboard.component";
-import UserStats from "../../../components/user-stats.component";
-import Search from "../../../components/search.component";
+import LSPDashboard from "../../../../../components/lsp-dashboard.component";
+import UserStats from "../../../../../components/user-stats.component";
+import Search from "../../../../../components/search.component";
 
 const ExpandedSideBar = ({ handleSideBarExpanded }) => {
   const [activeTab, setActiveTab] = useState("search"); //use Enum or Constant
