@@ -4,31 +4,24 @@ import PageTable from "./components/tasks/page-table.component";
 import SlimSideBar from "./components/sidebar/slim/slim-side-bar.component";
 import ExpandedSideBar from "./components/sidebar/expanded/expanded.side-bar.component";
 
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import SideBar from "./components/sidebar/sideBar";
+
+import { useAppSelector } from "../../app/hooks";
+
+import { selectIsExpanded } from "./components/sidebar/sideBarSlice";
 
 const Home = () => {
-  const [sideBarExpanded, setSideBarExpanded] = useState(false);
-
-  const handleSideBarExpanded = () => {
-    //setShowMore(false); //need to dispatch this
-    setSideBarExpanded(!sideBarExpanded);
-  };
+  const isExpanded = useAppSelector(selectIsExpanded);
 
   return (
     <>
       <div style={{ marginTop: "65px" }}></div>
       <div className="flex">
-        {/* In here import a component that decides this. Call it sidebar */}
-        {sideBarExpanded ? (
-          <ExpandedSideBar handleSideBarExpanded={handleSideBarExpanded} />
-        ) : (
-          <SlimSideBar handleSideBarExpanded={handleSideBarExpanded} />
-        )}
-
+        <SideBar />
         <div className="w-full">
           <div
             className="mt-1"
-            style={{ marginLeft: sideBarExpanded ? "257px" : "57px" }}
+            style={{ marginLeft: isExpanded ? "257px" : "57px" }}
           >
             <ActionBar />
             <PageTable />
