@@ -9,7 +9,7 @@ import {
 
 import { useState, useRef, useLayoutEffect } from "react";
 
-import ActionBar from "../home/components/actionBar/action-bar.component";
+import ActionBar from "../home/components/actionBar/ActionBar";
 
 const positions = [
   {

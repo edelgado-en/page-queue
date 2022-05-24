@@ -1,5 +1,5 @@
-import SlimSideBar from "./slim/slim-side-bar.component";
-import ExpandedSideBar from "./expanded/expanded.side-bar.component";
+import SlimSideBar from "./slim/SlimSideBar";
+import ExpandedSideBar from "./expanded/ExpandedSideBar";
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 import { toggleExpanded, selectIsExpanded } from "./sideBarSlice";
 

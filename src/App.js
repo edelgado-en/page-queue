@@ -1,11 +1,11 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import './App.css';
 
 import { Routes, Route, Outlet, useLocation, Link } from 'react-router-dom';
 
 import Navigation from './routes/navigation/navigation';
 
-const Home = lazy(() => import('./routes/home/home'));
+const Home = lazy(() => import('./routes/home/Home'));
 const StackedList = lazy(() => import('./routes/stackedlist/stacked-list.component'));
 const Counter = lazy(() => import('./features/counter/Counter'));
 
@@ -61,14 +61,13 @@ const App = () => {
           <div className="flex-grow">
             <Routes>
               <Route path="/login" element={<Login />} />
-                <Route element={<ProtectedRoute />}>
-                    <Route path="/" element={<Navigation />}>
-                        <Route index element={<Home />} />
-                        <Route path="stacked" element={<StackedList />}/>
-                        <Route path="counter" element={<Counter />}/>
-                        {/* Add all your protected routes here routes here */}
-                    </Route>
+              <Route element={<ProtectedRoute />}>
+                <Route path="/" element={<Navigation />}>
+                    <Route index element={<Home />} />
+                    <Route path="stacked" element={<StackedList />}/>
+                    <Route path="counter" element={<Counter />}/>
                 </Route>
+              </Route>
             </Routes>
           </div>
           { pathname !== '/login' && <Footer /> } 

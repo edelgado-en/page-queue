@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState, useRef } from "react";
 
-import { pages } from "../pages-data";
+import { data } from "./tasks-data";
 
 import {
   CalendarIcon,
@@ -18,7 +18,7 @@ const classNames = (...classes) => {
 
 const PageTable = () => {
   const checkbox = useRef();
-  const [people, setPeople] = useState(pages);
+  const [people, setPeople] = useState(data);
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
   const [selectedPeople, setSelectedPeople] = useState([]);
@@ -120,7 +120,7 @@ const PageTable = () => {
       <tbody className="divide-y divide-gray-200 bg-white">
         {people.map((person) => (
           <tr
-            key={person.email}
+            key={person.id}
             className={
               selectedPeople.includes(person)
                 ? "bg-gray-100"
@@ -134,7 +134,7 @@ const PageTable = () => {
               <input
                 type="checkbox"
                 className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
-                value={person.email}
+                value={person.id}
                 checked={selectedPeople.includes(person)}
                 onChange={(e) =>
                   setSelectedPeople(
@@ -173,7 +173,7 @@ const PageTable = () => {
             </td>
             <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500 bg-green-100 text-center">
               <span className="px-1.5 inline-flex text-xs leading-5 text-gray-500">
-                New
+                {person.translationStatus}
               </span>
             </td>
             <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-center">

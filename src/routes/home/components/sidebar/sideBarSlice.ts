@@ -14,8 +14,6 @@ export const sideBarSlice = createSlice({
     initialState,
     reducers: {
         toggleExpanded: (state) => {
-            console.log('sidebar slice');
-            console.log(state);
             state.isExpanded = !state.isExpanded
         }
     }
