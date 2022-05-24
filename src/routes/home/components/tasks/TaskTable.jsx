@@ -1,6 +1,13 @@
 import { useLayoutEffect, useState, useRef } from "react";
 
-import { data } from "./tasks-data";
+import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
+import {
+  selectTasks,
+  selectSelectedTasks,
+  setSelectedTasks,
+  addSelectedTask,
+  removeSelectedTask,
+} from "./tasksSlice";
 
 import {
   CalendarIcon,
@@ -18,23 +25,40 @@ const classNames = (...classes) => {
 
 const PageTable = () => {
   const checkbox = useRef();
-  const [people, setPeople] = useState(data);
+  const dispatch = useAppDispatch();
+  const tasks = useAppSelector(selectTasks);
+  const selectedTasks = useAppSelector(selectSelectedTasks);
+
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
-  const [selectedPeople, setSelectedPeople] = useState([]);
 
+  /* UseLayoutEffect runs synchronously immediately after React has performed all DOM mutations.
+  Since I"m using useRef, I"m using this instead of useEffect */
   useLayoutEffect(() => {
     const isIndeterminate =
-      selectedPeople.length > 0 && selectedPeople.length < people.length;
-    setChecked(selectedPeople.length === people.length);
+      selectedTasks.length > 0 && selectedTasks.length < tasks.length;
+
+    setChecked(selectedTasks.length === tasks.length);
     setIndeterminate(isIndeterminate);
+
     checkbox.current.indeterminate = isIndeterminate;
-  }, [selectedPeople]);
+  }, [selectedTasks]);
 
   const toggleAll = () => {
-    setSelectedPeople(checked || indeterminate ? [] : people);
+    const newTasks = checked || indeterminate ? [] : tasks;
+
+    dispatch(setSelectedTasks(newTasks));
+
     setChecked(!checked && !indeterminate);
     setIndeterminate(false);
+  };
+
+  const handleTaskCheckbox = (event, task) => {
+    if (event.target.checked) {
+      dispatch(addSelectedTask(task));
+    } else {
+      dispatch(removeSelectedTask(task));
+    }
   };
 
   const handleOpenTask = (page) => {
@@ -118,37 +142,29 @@ const PageTable = () => {
         </tr>
       </thead>
       <tbody className="divide-y divide-gray-200 bg-white">
-        {people.map((person) => (
+        {tasks.map((task) => (
           <tr
-            key={person.id}
+            key={task.id}
             className={
-              selectedPeople.includes(person)
-                ? "bg-gray-100"
-                : "hover:bg-gray-100"
+              selectedTasks.includes(task) ? "bg-gray-100" : "hover:bg-gray-100"
             }
           >
             <td className="relative w-12 px-6 sm:w-16 sm:px-8">
-              {selectedPeople.includes(person) && (
+              {selectedTasks.includes(task) && (
                 <div className="absolute inset-y-0 left-0 w-0.5 bg-indigo-600" />
               )}
               <input
                 type="checkbox"
                 className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
-                value={person.id}
-                checked={selectedPeople.includes(person)}
-                onChange={(e) =>
-                  setSelectedPeople(
-                    e.target.checked
-                      ? [...selectedPeople, person]
-                      : selectedPeople.filter((p) => p !== person)
-                  )
-                }
+                value={task.id}
+                checked={selectedTasks.includes(task)}
+                onChange={(e) => handleTaskCheckbox(e, task)}
               />
             </td>
             <td
               className={classNames(
                 "whitespace-nowrap py-3 pr-3 text-xs font-medium",
-                selectedPeople.includes(person)
+                selectedTasks.includes(task)
                   ? "text-indigo-600"
                   : "text-gray-900"
               )}
@@ -173,7 +189,7 @@ const PageTable = () => {
             </td>
             <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500 bg-green-100 text-center">
               <span className="px-1.5 inline-flex text-xs leading-5 text-gray-500">
-                {person.translationStatus}
+                {task.translationStatus}
               </span>
             </td>
             <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-center">
@@ -205,7 +221,7 @@ const PageTable = () => {
             </td>
             <td>
               <ChevronDownIcon
-                onClick={() => handleOpenTask(person)}
+                onClick={() => handleOpenTask(task)}
                 className="h-4 w-4 text-gray-400 cursor-pointer"
               />
               {/* Use Feeds for the activity */}
