@@ -5,6 +5,7 @@ import { data } from './tasks-data';
 interface Task {
     id: number;
     translationStatus: string;
+    isExpanded?: boolean
 }
 
 interface TaskList extends Array<Task>{}
@@ -13,8 +14,6 @@ interface TasksState {
     tasks: TaskList
     selectedTasks: TaskList
 } 
-
-//TODO: you also need to store selectedPages in this slice so that you can access them from the action bar
 
 const initialState: TasksState = {
     tasks: data,
@@ -34,11 +33,37 @@ export const TasksSlice = createSlice({
         removeSelectedTask: (state, action:PayloadAction<Task>) => {
             const index = state.selectedTasks.findIndex(t => action.payload.id === t.id);
             state.selectedTasks.splice(index, 1);
+        },
+        expandTask: (state, action:PayloadAction<Task>) => {
+            let taskList = [...state.tasks];
+            taskList = taskList.map(t => {
+                if (t.id === action.payload.id) {
+                    t.isExpanded = true;
+                } else {
+                    t.isExpanded = false;
+                }
+
+                return t;
+            });
+
+            state.tasks = taskList;
+        },
+        closeTask: (state, action:PayloadAction<Task>) => {
+            let taskList = [...state.tasks];
+            taskList = taskList.map(t => {
+                if (t.id === action.payload.id) {
+                    t.isExpanded = false;
+                } 
+
+                return t;
+            });
+
+            state.tasks = taskList;
         }
     }
 });
 
-export const { setSelectedTasks, addSelectedTask, removeSelectedTask } = TasksSlice.actions;
+export const { setSelectedTasks, addSelectedTask, removeSelectedTask, expandTask, closeTask } = TasksSlice.actions;
 
 export const selectTasks = (state: RootState) => state.tasks.tasks;
 

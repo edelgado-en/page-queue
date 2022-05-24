@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, useRef } from "react";
+import React, { useLayoutEffect, useState, useRef } from "react";
 
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 import {
@@ -7,11 +7,14 @@ import {
   setSelectedTasks,
   addSelectedTask,
   removeSelectedTask,
+  expandTask,
+  closeTask,
 } from "./tasksSlice";
 
 import {
   CalendarIcon,
   ChevronDownIcon,
+  ChevronUpIcon,
   ArrowSmRightIcon,
   LockClosedIcon,
   PencilAltIcon,
@@ -59,6 +62,14 @@ const PageTable = () => {
     } else {
       dispatch(removeSelectedTask(task));
     }
+  };
+
+  const handleExpandTask = (task) => {
+    dispatch(expandTask(task));
+  };
+
+  const handleCloseTask = (task) => {
+    dispatch(closeTask(task));
   };
 
   const handleOpenTask = (page) => {
@@ -143,90 +154,114 @@ const PageTable = () => {
       </thead>
       <tbody className="divide-y divide-gray-200 bg-white">
         {tasks.map((task) => (
-          <tr
-            key={task.id}
-            className={
-              selectedTasks.includes(task) ? "bg-gray-100" : "hover:bg-gray-100"
-            }
-          >
-            <td className="relative w-12 px-6 sm:w-16 sm:px-8">
-              {selectedTasks.includes(task) && (
-                <div className="absolute inset-y-0 left-0 w-0.5 bg-indigo-600" />
-              )}
-              <input
-                type="checkbox"
-                className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
-                value={task.id}
-                checked={selectedTasks.includes(task)}
-                onChange={(e) => handleTaskCheckbox(e, task)}
-              />
-            </td>
-            <td
-              className={classNames(
-                "whitespace-nowrap py-3 pr-3 text-xs font-medium",
+          <React.Fragment key={task.id}>
+            <tr
+              className={
                 selectedTasks.includes(task)
-                  ? "text-indigo-600"
-                  : "text-gray-900"
-              )}
+                  ? "bg-gray-100"
+                  : "hover:bg-gray-100"
+              }
             >
-              <span className="ml-1 font-medium text-indigo-600 truncate cursor-pointer">
-                88280213
-              </span>
-              <span
-                className="ml-1 flex-shrink-0 font-normal text-gray-500"
-                style={{ fontSize: "10px" }}
+              <td className="relative w-12 px-6 sm:w-16 sm:px-8">
+                {selectedTasks.includes(task) && (
+                  <div className="absolute inset-y-0 left-0 w-0.5 bg-indigo-600" />
+                )}
+                <input
+                  type="checkbox"
+                  className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
+                  value={task.id}
+                  checked={selectedTasks.includes(task)}
+                  onChange={(e) => handleTaskCheckbox(e, task)}
+                />
+              </td>
+              <td
+                className={classNames(
+                  "whitespace-nowrap py-3 pr-3 text-xs font-medium",
+                  selectedTasks.includes(task)
+                    ? "text-indigo-600"
+                    : "text-gray-900"
+                )}
               >
-                OSO-HTML
-              </span>
-            </td>
-            <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">
-              <div className="flex items-center text-sm text-gray-500">
-                <CalendarIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-                <TrashIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
-              </div>
-            </td>
-            <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500 bg-green-100 text-center">
-              <span className="px-1.5 inline-flex text-xs leading-5 text-gray-500">
-                {task.translationStatus}
-              </span>
-            </td>
-            <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-center">
-              <div className="text-xs">98%</div>
-            </td>
-            <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-              <div className="text-xs">5,678</div>
-            </td>
-            <td className="whitespace-nowrap px-3 py-1.5 text-xs ">
-              <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-            </td>
-            <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-              <span className="text-xs">04-29 08:58 AM</span>
-              <span className="ml-2">(TS)</span>
-            </td>
-            <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-              <span className="text-xs">04-29 08:58 AM</span>
-              <span className="ml-2">(AP)</span>
-            </td>
-            <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
-              <span className="text-xs">04-29 08:58 AM</span>
-              <div className="text-xs inline-block ml-1">
-                <span className="font-semibold bg-sky-100  px-1">PTS</span>{" "}
-                <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
-                <span>edelgado</span>{" "}
-                <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
-                <span>adeberry</span>
-              </div>
-            </td>
-            <td>
-              <ChevronDownIcon
-                onClick={() => handleOpenTask(task)}
-                className="h-4 w-4 text-gray-400 cursor-pointer"
-              />
-              {/* Use Feeds for the activity */}
-            </td>
-          </tr>
+                <span className="ml-1 font-medium text-indigo-600 truncate cursor-pointer">
+                  88280213
+                </span>
+                <span
+                  className="ml-1 flex-shrink-0 font-normal text-gray-500"
+                  style={{ fontSize: "10px" }}
+                >
+                  OSO-HTML
+                </span>
+              </td>
+              <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">
+                <div className="flex items-center text-sm text-gray-500">
+                  <CalendarIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
+                  <LockClosedIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
+                  <PencilAltIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
+                  <TrashIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
+                </div>
+              </td>
+              <td
+                className={`whitespace-nowrap px-3 py1.5 text-xs text-gray-500 text-center ${
+                  task.translationStatus === "new" ? "bg-green-100 " : ""
+                }`}
+              >
+                <span className="px-1.5 inline-flex text-xs leading-5 text-gray-500">
+                  {task.translationStatus}
+                </span>
+              </td>
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500 text-center">
+                <div className="text-xs">98%</div>
+              </td>
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+                <div className="text-xs">5,678</div>
+              </td>
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs ">
+                <CheckIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
+              </td>
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+                <span className="text-xs">04-29 08:58 AM</span>
+                <span className="ml-2">(TS)</span>
+              </td>
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+                <span className="text-xs">04-29 08:58 AM</span>
+                <span className="ml-2">(AP)</span>
+              </td>
+              <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
+                <span className="text-xs">04-29 08:58 AM</span>
+                <div className="text-xs inline-block ml-1">
+                  <span className="font-semibold bg-sky-100  px-1">PTS</span>{" "}
+                  <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
+                  <span>edelgado</span>{" "}
+                  <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
+                  <span>adeberry</span>
+                </div>
+              </td>
+              <td>
+                {task.isExpanded ? (
+                  <ChevronUpIcon
+                    onClick={() => handleCloseTask(task)}
+                    className="h-4 w-4 text-gray-400 cursor-pointer"
+                  />
+                ) : (
+                  <ChevronDownIcon
+                    onClick={() => handleExpandTask(task)}
+                    className="h-4 w-4 text-gray-400 cursor-pointer"
+                  />
+                )}
+
+                {/* Use Feeds for the activity */}
+              </td>
+            </tr>
+            {task.isExpanded && (
+              <tr>
+                <td colspan="11">
+                  <div className="flex bg-gray-100 py-5 px-7">
+                    Add comments and feeds
+                  </div>
+                </td>
+              </tr>
+            )}
+          </React.Fragment>
         ))}
       </tbody>
     </table>
