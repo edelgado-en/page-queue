@@ -189,7 +189,7 @@ const PageTable = () => {
                   className="ml-1 flex-shrink-0 font-normal text-gray-500"
                   style={{ fontSize: "10px" }}
                 >
-                  OSO-HTML
+                  HTML
                 </span>
               </td>
               <td className="whitespace-nowrap px-3 py1.5 text-xs text-gray-500">
@@ -229,7 +229,7 @@ const PageTable = () => {
               <td className="whitespace-nowrap px-3 py-1.5 text-xs text-gray-500">
                 <span className="text-xs">04-29 08:58 AM</span>
                 <div className="text-xs inline-block ml-1">
-                  <span className="font-semibold bg-sky-100  px-1">PTS</span>{" "}
+                  <span className="font-semibold bg-sky-100  px-1">CT1</span>{" "}
                   <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
                   <span>edelgado</span>{" "}
                   <ArrowSmRightIcon className="h-3 w-3 inline-block" />{" "}
