@@ -1,4 +1,15 @@
 export const data = [
     { id: 1, translationStatus: 'new' },
     { id: 2, translationStatus: 'translated' },
+    { id: 3, translationStatus: 'translated' },
+    { id: 4, translationStatus: 'translated' },
+    { id: 5, translationStatus: 'translated' },
+    { id: 6, translationStatus: 'active' },
+    { id: 7, translationStatus: 'active' },
+    { id: 8, translationStatus: 'translated' },
+    { id: 9, translationStatus: 'translated' },
+    { id: 10, translationStatus: 'translated' },
+    { id: 11, translationStatus: 'translated' },
+    { id: 12, translationStatus: 'translated' },
+    { id: 13, translationStatus: 'translated' },
 ]
