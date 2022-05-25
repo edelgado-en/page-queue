@@ -5,7 +5,7 @@ import { Routes, Route, Outlet, useLocation, Link } from 'react-router-dom';
 
 import Navigation from './routes/navigation/navigation';
 
-const Home = lazy(() => import('./routes/home/Home'));
+const Home = lazy(() => import('./routes/home/home'));
 const StackedList = lazy(() => import('./routes/stackedlist/stacked-list.component'));
 const Counter = lazy(() => import('./features/counter/Counter'));
 
