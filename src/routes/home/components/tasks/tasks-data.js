@@ -12,4 +12,8 @@ export const data = [
     { id: 11, translationStatus: 'translated' },
     { id: 12, translationStatus: 'translated' },
     { id: 13, translationStatus: 'translated' },
+    { id: 14, translationStatus: 'translated' },
+    { id: 15, translationStatus: 'translated' },
+    { id: 16, translationStatus: 'translated' },
+    { id: 17, translationStatus: 'translated' },
 ]
