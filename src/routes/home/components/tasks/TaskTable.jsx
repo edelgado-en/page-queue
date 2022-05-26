@@ -22,6 +22,9 @@ import {
   CheckIcon,
 } from "@heroicons/react/solid";
 
+import TaskActivity from "./activity/TaskActivity";
+import TaskComment from "./comment/TaskComment";
+
 const classNames = (...classes) => {
   return classes.filter(Boolean).join(" ");
 };
@@ -248,15 +251,38 @@ const PageTable = () => {
                     className="h-4 w-4 text-gray-400 cursor-pointer"
                   />
                 )}
-
-                {/* Use Feeds for the activity */}
               </td>
             </tr>
             {task.isExpanded && (
               <tr>
                 <td colspan="11">
-                  <div className="flex bg-gray-100 py-5 px-7">
-                    Add comments and feeds
+                  <div className="flex bg-gray-100 py-16 px-7">
+                    <div className="flex-1">
+                      <div className="px-7 w-5/6">
+                        <textarea
+                          rows={3}
+                          name="comment"
+                          id="comment"
+                          className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                          placeholder="Add your comment..."
+                          defaultValue={""}
+                        />
+                        <div className="mt-2 mb-4 flex justify-end">
+                          <button
+                            type="button"
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          >
+                            Post
+                          </button>
+                        </div>
+                        <TaskComment />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <div className="pr-10">
+                        <TaskActivity />
+                      </div>
+                    </div>
                   </div>
                 </td>
               </tr>
