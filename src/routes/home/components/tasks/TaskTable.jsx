@@ -205,7 +205,11 @@ const PageTable = () => {
               </td>
               <td
                 className={`whitespace-nowrap px-3 py1.5 text-xs text-gray-500 text-center ${
-                  task.translationStatus === "new" ? "bg-green-100 " : ""
+                  task.translationStatus === "new"
+                    ? "bg-green-100 "
+                    : task.translationStatus === "in progress"
+                    ? "bg-blue-100"
+                    : ""
                 }`}
               >
                 <span className="px-1.5 inline-flex text-xs leading-5 text-gray-500">
@@ -255,7 +259,7 @@ const PageTable = () => {
             </tr>
             {task.isExpanded && (
               <tr>
-                <td colspan="11">
+                <td colSpan="11">
                   <div className="flex bg-gray-100 py-16 px-7">
                     <div className="flex-1">
                       <div className="px-7 w-5/6">

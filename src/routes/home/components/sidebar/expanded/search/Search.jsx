@@ -7,19 +7,69 @@ import { STANDARD_DROPDOWN_STYLES } from "../../../../../../contants";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import { useAppSelector, useAppDispatch } from "../../../../../../app/hooks";
+import {
+  selectStatuses,
+  selectSelectedStatus,
+  handleDropdownChange,
+} from "./searchSlice";
+
 const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
+  { value: 1, label: "New" },
+  { value: 2, label: "In Progress" },
+  { value: 3, label: "Completed" },
 ];
 
+const contractors = [
+  { value: -1, label: "All" },
+  { value: 1, label: "Contractor 1" },
+  { value: 2, label: "Contractor 2" },
+];
+
+const defaultFormFields = {
+  statuses: options,
+  contractors,
+  selectedStatus: options[0],
+  selectedContractor: contractors[0],
+};
+
 const Search = () => {
+  const dispatch = useAppDispatch();
+  const statuses = useAppSelector(selectStatuses);
+  const selectedStatus = useAppSelector(selectSelectedStatus);
+
   const [selectedOption, setSelectedOption] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const [showMore, setShowMore] = useState(false);
 
+  const [formFields, setFormFields] = useState(defaultFormFields);
+  const { contractors, selectedContractor } = formFields;
+
+  const handleResetFormFields = () => {
+    setFormFields(defaultFormFields);
+  };
+
   const handleShowMore = () => {
     setShowMore(true);
+  };
+
+  /**
+   * Because of the nature of the dropdown, we need to have a handler for dropdown and a different
+   * handler for regular text input fields.
+   *
+   * @param {*} option refers to the object coming from the Select dropdown in the form of: { value: int, label: string }
+   * @param {*} name the name of the key:string refering to the dropdown. Look at defaultFormFields
+   */
+  const handleChange = (option, name) => {
+    //setFormFields({ ...formFields, [name]: option });
+    dispatch(handleDropdownChange({ option, name }));
+  };
+
+  const handleSearch = () => {
+    const { selectedContractor } = formFields;
+
+    console.log(selectedStatus);
+    console.log(selectedContractor);
   };
 
   return (
@@ -35,20 +85,20 @@ const Search = () => {
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
-            defaultValue={selectedOption}
-            onChange={setSelectedOption}
-            options={options}
+            value={selectedStatus}
+            onChange={(option) => handleChange(option, "selectedStatus")}
+            options={statuses}
           />
 
           <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
-            LSP
+            Contractors
           </label>
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
-            defaultValue={selectedOption}
-            onChange={setSelectedOption}
-            options={options}
+            value={selectedContractor}
+            onChange={(option) => handleChange(option, "selectedContractor")}
+            options={contractors}
           />
 
           <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
@@ -208,12 +258,14 @@ const Search = () => {
       </div>
       <div className="h-[15%] px-3 text-right py-4">
         <button
+          onClick={handleResetFormFields}
           type="button"
           className="mr-3 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Add Pref Search
         </button>
         <button
+          onClick={handleSearch}
           type="button"
           className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
