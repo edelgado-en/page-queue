@@ -1,9 +1,6 @@
 import { useState } from "react";
-
 import Select from "react-select";
-
 import { STANDARD_DROPDOWN_STYLES } from "../../../../../../contants";
-
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -11,7 +8,10 @@ import { useAppSelector, useAppDispatch } from "../../../../../../app/hooks";
 import {
   selectStatuses,
   selectSelectedStatus,
+  selectContractors,
+  selectSelectedContractor,
   handleDropdownChange,
+  resetAllFields,
 } from "./searchSlice";
 
 const options = [
@@ -20,33 +20,19 @@ const options = [
   { value: 3, label: "Completed" },
 ];
 
-const contractors = [
-  { value: -1, label: "All" },
-  { value: 1, label: "Contractor 1" },
-  { value: 2, label: "Contractor 2" },
-];
-
-const defaultFormFields = {
-  statuses: options,
-  contractors,
-  selectedStatus: options[0],
-  selectedContractor: contractors[0],
-};
-
 const Search = () => {
   const dispatch = useAppDispatch();
   const statuses = useAppSelector(selectStatuses);
   const selectedStatus = useAppSelector(selectSelectedStatus);
+  const contractors = useAppSelector(selectContractors);
+  const selectedContractor = useAppSelector(selectSelectedContractor);
 
   const [selectedOption, setSelectedOption] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const [showMore, setShowMore] = useState(false);
 
-  const [formFields, setFormFields] = useState(defaultFormFields);
-  const { contractors, selectedContractor } = formFields;
-
   const handleResetFormFields = () => {
-    setFormFields(defaultFormFields);
+    dispatch(resetAllFields());
   };
 
   const handleShowMore = () => {
@@ -61,13 +47,10 @@ const Search = () => {
    * @param {*} name the name of the key:string refering to the dropdown. Look at defaultFormFields
    */
   const handleChange = (option, name) => {
-    //setFormFields({ ...formFields, [name]: option });
     dispatch(handleDropdownChange({ option, name }));
   };
 
   const handleSearch = () => {
-    const { selectedContractor } = formFields;
-
     console.log(selectedStatus);
     console.log(selectedContractor);
   };
@@ -75,12 +58,9 @@ const Search = () => {
   return (
     <>
       <div className="mt-2 px-3 overflow-y-auto lg:h-[80%] md:h-[70%] sm:h-[60%]">
-        {/* The filters that are never used should be hidden in a "show more link" because they are almost never used
-                there is no need to keep showing them all the time.
-                */}
         <div>
           <label className="block text-xs font-medium text-gray-700 mb-1 mt-2">
-            Translation Status
+            Task Status
           </label>
           <Select
             maxMenuHeight={850}
@@ -123,15 +103,13 @@ const Search = () => {
             options={options}
           />
 
-          {!showMore && (
-            <div className="w-full border-t border-gray-300 my-5" />
-          )}
+          <div className="w-full border-t border-gray-300 my-5" />
 
           <label
             htmlFor="ids"
             className={`block text-xs font-medium text-gray-700`}
           >
-            Page Ids
+            Task Ids
           </label>
           <input
             type="text"
@@ -144,9 +122,9 @@ const Search = () => {
           {/* Put this in a component */}
           <label
             htmlFor="urls"
-            className="block text-xs font-medium text-gray-700 mt-2"
+            className="block text-xs font-medium text-gray-700 mt-3"
           >
-            Page Urls
+            Task Urls
           </label>
           <input
             type="text"
@@ -156,7 +134,7 @@ const Search = () => {
             placeholder="url1,url2,url3..."
           />
 
-          <label className="block text-xs font-medium text-gray-700 mt-2">
+          <label className="block text-xs font-medium text-gray-700 mt-3">
             Queue Start Date
           </label>
           <DatePicker
@@ -177,7 +155,7 @@ const Search = () => {
 
           {showMore ? (
             <>
-              <label className="block text-xs font-medium text-gray-700 mt-2">
+              <label className="block text-xs font-medium text-gray-700 mt-3">
                 Queue End Date
               </label>
               <DatePicker
@@ -187,18 +165,7 @@ const Search = () => {
                 onChange={(date) => setStartDate(date)}
               />
 
-              <label className="block text-xs font-medium text-gray-700 mt-2">
-                Translation Type
-              </label>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
-
-              <label className="block text-xs font-medium text-gray-700 mt-2">
+              <label className="block text-xs font-medium text-gray-700 mt-3">
                 Content Type
               </label>
               <Select
@@ -209,18 +176,7 @@ const Search = () => {
                 options={options}
               />
 
-              <label className="block text-xs font-medium text-gray-700 mt-2">
-                Project Code
-              </label>
-              <Select
-                maxMenuHeight={850}
-                styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
-
-              <label className="block text-xs font-medium text-gray-700 mt-2">
+              <label className="block text-xs font-medium text-gray-700 mt-3">
                 Priority
               </label>
               <Select
@@ -231,7 +187,7 @@ const Search = () => {
                 options={options}
               />
 
-              <label className="block text-xs font-medium text-gray-700 mt-2">
+              <label className="block text-xs font-medium text-gray-700 mt-3">
                 Internal Reviewer
               </label>
               <Select
@@ -242,7 +198,7 @@ const Search = () => {
                 options={options}
               />
 
-              <label className="block text-xs font-medium text-gray-700 mt-2">
+              <label className="block text-xs font-medium text-gray-700 mt-3">
                 Requested By
               </label>
               <Select
