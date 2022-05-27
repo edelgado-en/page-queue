@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import {
   LoginIcon,
   SearchIcon,
@@ -8,15 +6,23 @@ import {
   StarIcon,
 } from "@heroicons/react/solid";
 
+import { selectActiveTab, setActiveTab, toggleExpanded } from "../sideBarSlice";
+import { useAppSelector, useAppDispatch } from "../../../../../app/hooks";
+
 import LSPDashboard from "./lsp/LspDashboard";
 import UserStats from "./user/UserStats";
 import Search from "./search/Search";
 
-const ExpandedSideBar = ({ handleSideBarExpanded }) => {
-  const [activeTab, setActiveTab] = useState("search"); //use Enum or Constant
+const ExpandedSideBar = () => {
+  const dispatch = useAppDispatch();
+  const activeTab = useAppSelector(selectActiveTab);
 
   const handleSetActiveTab = (tab) => {
-    setActiveTab(tab);
+    dispatch(setActiveTab(tab));
+  };
+
+  const handleSideBarExpanded = () => {
+    dispatch(toggleExpanded());
   };
 
   return (
@@ -68,7 +74,7 @@ const ExpandedSideBar = ({ handleSideBarExpanded }) => {
               </span>
 
               <span
-                onClick={() => handleSetActiveTab("preferredSearches")}
+                onClick={() => handleSetActiveTab("preferred")}
                 className={`cursor-pointer whitespace-nowrap py-2 px-1 border-b-2
                     font-medium text-xs border-transparent
                      ${

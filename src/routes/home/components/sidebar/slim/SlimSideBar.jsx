@@ -7,9 +7,19 @@ import {
   DocumentIcon,
 } from "@heroicons/react/solid";
 
+import { toggleExpanded, setActiveTab } from "../sideBarSlice";
+import { useAppDispatch } from "../../../../../app/hooks";
+
 import ReactTooltip from "react-tooltip";
 
-const SlimSideBar = ({ handleSideBarExpanded }) => {
+const SlimSideBar = () => {
+  const dispatch = useAppDispatch();
+
+  const handleSideBarExpanded = (tab) => {
+    dispatch(toggleExpanded());
+    dispatch(setActiveTab(tab));
+  };
+
   return (
     <div className="fixed flex bg-gray-100 min-h-screen flex-col z-50 border-r-2 p-4 w-14">
       <ReactTooltip
@@ -20,37 +30,54 @@ const SlimSideBar = ({ handleSideBarExpanded }) => {
         className="tooltip-general"
         multiline={true}
       />
+
       <LogoutIcon
         data-for="sidebar"
         data-tip="Expand"
         data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer"
-        onClick={handleSideBarExpanded}
+        onClick={() => handleSideBarExpanded("search")}
       />
+
       <SearchIcon
+        data-for="sidebar"
+        data-tip="Search"
+        data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-        onClick={handleSideBarExpanded}
+        onClick={() => handleSideBarExpanded("search")}
       />
+
       <BriefcaseIcon
+        data-for="sidebar"
+        data-tip="Contractors"
+        data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-        onClick={handleSideBarExpanded}
+        onClick={() => handleSideBarExpanded("lsp")}
       />
-      {/* LSP */}
+
       <UsersIcon
+        data-for="sidebar"
+        data-tip="Users"
+        data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-        onClick={handleSideBarExpanded}
+        onClick={() => handleSideBarExpanded("users")}
       />
-      {/* linguist pending workload distribution. Add tooltip  */}
+
       <StarIcon
+        data-for="sidebar"
+        data-tip="Preferred Searches"
+        data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-        onClick={handleSideBarExpanded}
+        onClick={() => handleSideBarExpanded("preferred")}
       />
-      {/* prefered search */}
+
       <DocumentIcon
+        data-for="sidebar"
+        data-tip="New Text"
+        data-iscapture="true"
         className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer mt-6"
-        onClick={handleSideBarExpanded}
+        onClick={() => handleSideBarExpanded("search")}
       />
-      {/* New Segment */}
     </div>
   );
 };

@@ -12,6 +12,18 @@ import {
   selectSelectedContractor,
   handleDropdownChange,
   resetAllFields,
+  selectTATStatuses,
+  selectFlags,
+  selectedFlag,
+  selectedTATStatus,
+  selectContentTypes,
+  selectedContentType,
+  selectPriorities,
+  selectedPriority,
+  selectInternalReviewers,
+  selectedInternalReviewer,
+  selectRequestedBy,
+  selectedRequestedBy,
 } from "./searchSlice";
 
 const options = [
@@ -26,6 +38,18 @@ const Search = () => {
   const selectedStatus = useAppSelector(selectSelectedStatus);
   const contractors = useAppSelector(selectContractors);
   const selectedContractor = useAppSelector(selectSelectedContractor);
+  const flags = useAppSelector(selectFlags);
+  const slFlag = useAppSelector(selectedFlag);
+  const TATStatuses = useAppSelector(selectTATStatuses);
+  const selectedTStatus = useAppSelector(selectedTATStatus);
+  const contentTypes = useAppSelector(selectContentTypes);
+  const sContentType = useAppSelector(selectedContentType);
+  const priorities = useAppSelector(selectPriorities);
+  const sPriority = useAppSelector(selectedPriority);
+  const internalReviewers = useAppSelector(selectInternalReviewers);
+  const sInternalReviewer = useAppSelector(selectedInternalReviewer);
+  const requestedBy = useAppSelector(selectRequestedBy);
+  const sRequestedBy = useAppSelector(selectedRequestedBy);
 
   const [selectedOption, setSelectedOption] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
@@ -87,9 +111,9 @@ const Search = () => {
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
-            defaultValue={selectedOption}
-            onChange={setSelectedOption}
-            options={options}
+            value={selectedTStatus}
+            onChange={(option) => handleChange(option, "selectedTATStatus")}
+            options={TATStatuses}
           />
 
           <label className="block text-xs font-medium text-gray-700 mt-2 mb-1">
@@ -98,9 +122,9 @@ const Search = () => {
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
-            defaultValue={selectedOption}
-            onChange={setSelectedOption}
-            options={options}
+            value={slFlag}
+            onChange={(option) => handleChange(option, "selectedFlag")}
+            options={flags}
           />
 
           <div className="w-full border-t border-gray-300 my-5" />
@@ -171,9 +195,11 @@ const Search = () => {
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
+                value={sContentType}
+                onChange={(option) =>
+                  handleChange(option, "selectedContentType")
+                }
+                options={contentTypes}
               />
 
               <label className="block text-xs font-medium text-gray-700 mt-3">
@@ -182,9 +208,9 @@ const Search = () => {
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
+                value={sPriority}
+                onChange={(option) => handleChange(option, "selectedPriority")}
+                options={priorities}
               />
 
               <label className="block text-xs font-medium text-gray-700 mt-3">
@@ -193,9 +219,11 @@ const Search = () => {
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
+                value={sInternalReviewer}
+                onChange={(option) =>
+                  handleChange(option, "selectedInternalReviewer")
+                }
+                options={internalReviewers}
               />
 
               <label className="block text-xs font-medium text-gray-700 mt-3">
@@ -204,9 +232,11 @@ const Search = () => {
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
+                value={sRequestedBy}
+                onChange={(option) =>
+                  handleChange(option, "selectedRequestedBy")
+                }
+                options={requestedBy}
               />
             </>
           ) : null}
