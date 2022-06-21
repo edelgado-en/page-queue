@@ -31,7 +31,9 @@ interface SearchState {
     internalReviewers: Array<DropdownOption>,
     selectedInternalReviewer: DropdownOption,
     requestedBy: Array<DropdownOption>,
-    selectedRequestedBy: DropdownOption
+    selectedRequestedBy: DropdownOption,
+    startQueueDate: number | null, //save it as timestamp because Date object are not serializable
+    endQueueDate: number | null
 }
 
 const initialState: SearchState = {
@@ -50,19 +52,30 @@ const initialState: SearchState = {
     selectedPriority: priorities[0],
     selectedInternalReviewer: internalReviewers[0],
     selectedRequestedBy: requestedBy[0],
-    selectedFlag: flags[0]
+    selectedFlag: flags[0],
+    startQueueDate: null,
+    endQueueDate: null
 }
 
 export const searchSlice = createSlice({
     name: 'search',
     initialState,
     reducers: {
-        handleDropdownChange: (state, action:PayloadAction<DropdownPayload>) => {
+        handleDropdownChange: (state, action: PayloadAction<DropdownPayload>) => {
             const { option, name } = action.payload;
             //workaround to make TS happy. to avoid having to check for key names. We are already checking
             //that name should be a string in DropdownPayload
             (state as any)[name] = option;
         },
+        
+        handleStartDateChange: (state, action: PayloadAction<number>) => {
+            state.startQueueDate = action.payload;
+        },
+
+        handleEndDateChange: (state, action: PayloadAction<number>) => {
+            state.endQueueDate = action.payload;
+        },
+
         resetAllFields: (state) => {
             //state = initialState won't work because immer tracks mutations, and you are only doing one assignment
             return initialState;
@@ -70,24 +83,14 @@ export const searchSlice = createSlice({
     }
 })
 
-export const { handleDropdownChange, resetAllFields } = searchSlice.actions;
+export const { 
+    handleDropdownChange,
+    resetAllFields,
+    handleStartDateChange,
+    handleEndDateChange
 
-export const selectStatuses = (state: RootState) => state.search.statuses;
-export const selectContractors = (state: RootState) => state.search.contractors;
-export const selectTATStatuses = (state: RootState) => state.search.TATStatuses;
-export const selectFlags = (state: RootState) => state.search.flags;
-export const selectContentTypes = (state: RootState) => state.search.contentTypes;
-export const selectPriorities = (state: RootState) => state.search.priorities
-export const selectInternalReviewers = (state: RootState) => state.search.internalReviewers;
-export const selectRequestedBy = (state: RootState) => state.search.requestedBy;
+} = searchSlice.actions;
 
-export const selectedRequestedBy = (state: RootState) => state.search.selectedRequestedBy;
-export const selectedInternalReviewer = (state: RootState) => state.search.selectedInternalReviewer;
-export const selectedPriority = (state: RootState) => state.search.selectedPriority;
-export const selectedContentType = (state: RootState) => state.search.selectedContentType;
-export const selectedFlag = (state: RootState) => state.search.selectedFlag;
-export const selectedTATStatus = (state: RootState) => state.search.selectedTATStatus; 
-export const selectSelectedStatus = (state: RootState) => state.search.selectedStatus;
-export const selectSelectedContractor = (state: RootState) => state.search.selectedContractor;
+export const selectFilters = (state: RootState) => state.search;
 
 export default searchSlice.reducer;

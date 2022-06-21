@@ -1,7 +1,7 @@
 import ActionBar from "./components/actionBar/ActionBar";
 import TaskTable from "./components/tasks/TaskTable";
 
-import SideBar from "./components/sidebar/SideBar";
+import SideBar from "./components/sidebar/sidebar";
 
 import { useAppSelector } from "../../app/hooks";
 

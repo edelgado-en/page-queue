@@ -6,53 +6,39 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { useAppSelector, useAppDispatch } from "../../../../../../app/hooks";
 import {
-  selectStatuses,
-  selectSelectedStatus,
-  selectContractors,
-  selectSelectedContractor,
   handleDropdownChange,
+  handleStartDateChange,
+  handleEndDateChange,
   resetAllFields,
-  selectTATStatuses,
-  selectFlags,
-  selectedFlag,
-  selectedTATStatus,
-  selectContentTypes,
-  selectedContentType,
-  selectPriorities,
-  selectedPriority,
-  selectInternalReviewers,
-  selectedInternalReviewer,
-  selectRequestedBy,
-  selectedRequestedBy,
+  selectFilters
 } from "./searchSlice";
 
-const options = [
-  { value: 1, label: "New" },
-  { value: 2, label: "In Progress" },
-  { value: 3, label: "Completed" },
-];
 
 const Search = () => {
   const dispatch = useAppDispatch();
-  const statuses = useAppSelector(selectStatuses);
-  const selectedStatus = useAppSelector(selectSelectedStatus);
-  const contractors = useAppSelector(selectContractors);
-  const selectedContractor = useAppSelector(selectSelectedContractor);
-  const flags = useAppSelector(selectFlags);
-  const slFlag = useAppSelector(selectedFlag);
-  const TATStatuses = useAppSelector(selectTATStatuses);
-  const selectedTStatus = useAppSelector(selectedTATStatus);
-  const contentTypes = useAppSelector(selectContentTypes);
-  const sContentType = useAppSelector(selectedContentType);
-  const priorities = useAppSelector(selectPriorities);
-  const sPriority = useAppSelector(selectedPriority);
-  const internalReviewers = useAppSelector(selectInternalReviewers);
-  const sInternalReviewer = useAppSelector(selectedInternalReviewer);
-  const requestedBy = useAppSelector(selectRequestedBy);
-  const sRequestedBy = useAppSelector(selectedRequestedBy);
+  
+  const { 
+    statuses,
+    selectedStatus,
+    contractors,
+    selectedContractor,
+    flags,
+    selectedFlag,
+    TATStatuses,
+    selectedTATStatus,
+    contentTypes,
+    selectedContentType,
+    priorities,
+    selectedPriority,
+    internalReviewers,
+    selectedInternalReviewer,
+    requestedBy,
+    selectedRequestedBy,
+    startQueueDate,
+    endQueueDate
 
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [startDate, setStartDate] = useState(new Date());
+  } = useAppSelector(selectFilters);
+
   const [showMore, setShowMore] = useState(false);
 
   const handleResetFormFields = () => {
@@ -74,9 +60,20 @@ const Search = () => {
     dispatch(handleDropdownChange({ option, name }));
   };
 
+  const handleDateChange = (type, date) => {
+    if (type === 'start') {
+      dispatch(handleStartDateChange(date.getTime()));
+
+    } else {
+      dispatch(handleEndDateChange(date.getTime()));
+    }
+  }
+
   const handleSearch = () => {
     console.log(selectedStatus);
     console.log(selectedContractor);
+    console.log(startQueueDate); //this returns timestamp (number) which you need to convert to date OR null
+    console.log(endQueueDate);//this returns timestamp (number) which you need to convert to date OR null
   };
 
   return (
@@ -111,7 +108,7 @@ const Search = () => {
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
-            value={selectedTStatus}
+            value={selectedTATStatus}
             onChange={(option) => handleChange(option, "selectedTATStatus")}
             options={TATStatuses}
           />
@@ -122,7 +119,7 @@ const Search = () => {
           <Select
             maxMenuHeight={850}
             styles={STANDARD_DROPDOWN_STYLES}
-            value={slFlag}
+            value={selectedFlag}
             onChange={(option) => handleChange(option, "selectedFlag")}
             options={flags}
           />
@@ -162,10 +159,10 @@ const Search = () => {
             Queue Start Date
           </label>
           <DatePicker
-            selected={startDate}
+            selected={startQueueDate == null ? null : new Date(startQueueDate)}
             showTimeSelect
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md p-2"
-            onChange={(date) => setStartDate(date)}
+            onChange={(date) => handleDateChange('start', date)}
           />
 
           {!showMore && (
@@ -183,10 +180,10 @@ const Search = () => {
                 Queue End Date
               </label>
               <DatePicker
-                selected={startDate}
+                selected={endQueueDate == null ? null : new Date(endQueueDate)}
                 showTimeSelect
                 className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md p-2"
-                onChange={(date) => setStartDate(date)}
+                onChange={(date) => handleDateChange('end', date)}
               />
 
               <label className="block text-xs font-medium text-gray-700 mt-3">
@@ -195,7 +192,7 @@ const Search = () => {
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
-                value={sContentType}
+                value={selectedContentType}
                 onChange={(option) =>
                   handleChange(option, "selectedContentType")
                 }
@@ -208,7 +205,7 @@ const Search = () => {
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
-                value={sPriority}
+                value={selectedPriority}
                 onChange={(option) => handleChange(option, "selectedPriority")}
                 options={priorities}
               />
@@ -219,7 +216,7 @@ const Search = () => {
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
-                value={sInternalReviewer}
+                value={selectedInternalReviewer}
                 onChange={(option) =>
                   handleChange(option, "selectedInternalReviewer")
                 }
@@ -232,7 +229,7 @@ const Search = () => {
               <Select
                 maxMenuHeight={850}
                 styles={STANDARD_DROPDOWN_STYLES}
-                value={sRequestedBy}
+                value={selectedRequestedBy}
                 onChange={(option) =>
                   handleChange(option, "selectedRequestedBy")
                 }
